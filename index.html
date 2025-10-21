@@ -5,363 +5,405 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Partner Energético — Estudio gratuito de tu factura de luz</title>
-  <meta name="description" content="Solicita un estudio gratuito de tu factura de la luz. Optimiza potencia, tarifas y condiciones con un Partner Energético de confianza." />
+  <meta name="description" content="Estudio gratuito de tu factura de luz: detectamos sobrecostes, optimizamos potencia y tarifa. Partner Energético." />
 
-  <!-- GSAP para animación del título -->
+  <!-- Animaciones de entrada y título -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <!-- ScrollReveal -->
   <script defer src="https://unpkg.com/scrollreveal"></script>
 
   <style>
-    :root {
-      --bg: #0b0b0b; --text: #ffffff; --soft: #dff7e6; --accent: #18a957;
-      --muted: #9aa8a1; --card: #121212; --ring: #b7eccc; --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 18px; --maxw: 1120px; --white: #fff;
+    :root{
+      --bg:#0b0b0b; --text:#ffffff; --soft:#dff7e6; --accent:#18a957; --muted:#a7b3ae;
+      --card:#121212; --ring:#b7eccc; --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:18px; --maxw:1100px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg, var(--bg) 0%, #0e0e0e 100%);
-      color: var(--text);
-      -webkit-font-smoothing: antialiased; min-height: 100vh;
-    }
-    a { color: var(--soft); text-decoration: none; }
-    .container { max-width: var(--maxw); padding: 24px; margin: 0 auto; }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; color:var(--text); background:var(--bg); -webkit-font-smoothing:antialiased;}
 
-    .btn {
-      appearance: none; border: 0; border-radius: 999px; padding: 14px 22px; font-weight: 700; cursor: pointer;
-      background: linear-gradient(180deg, var(--accent), #118a47); color: #fff; box-shadow: var(--shadow);
-      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    /* AURA de fondo (verde sutil) */
+    .aura{position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden;
+      background: radial-gradient(60vmax 35vmax at 20% 15%, rgba(80,220,150,.12), transparent 60%),
+                  radial-gradient(50vmax 30vmax at 80% 20%, rgba(190,255,220,.09), transparent 60%),
+                  radial-gradient(70vmax 50vmax at 50% 90%, rgba(60,200,150,.07), transparent 60%),
+                  linear-gradient(180deg, #0b0b0b 0%, #0e0e0e 60%, #0b0b0b 100%);
+      filter:saturate(1.05) blur(0.2px);
     }
-    .btn:hover { transform: translateY(-2px); }
-    .btn:disabled { opacity: .6; cursor: not-allowed; }
-
-    /* HERO */
-    .hero { padding: 96px 0 48px; position: relative; overflow: hidden; }
-    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
-    .badge { display: inline-flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 999px;
-      background: rgba(223,247,230,.08); border: 1px solid rgba(223,247,230,.22); color: var(--soft); font-size: 13px; }
-    .title { font-size: clamp(36px, 7vw, 84px); line-height: .95; font-weight: 900; margin: 18px 0 12px; }
-    .title .char { display: inline-block; will-change: transform, opacity; }
-    .subtitle { color: var(--muted); font-size: clamp(15px, 2.2vw, 18px); max-width: 680px; }
-
-    /* DECRYPTED TEXT */
-    .decrypted { font-weight: 800; font-size: clamp(18px, 2.6vw, 28px); margin-top: 14px; color: var(--soft); }
-    .decrypted .enc { opacity: .75; }
-
-    /* TRUE FOCUS (resalta dos palabras con borde blanco) */
-    .true-focus {
-      margin-top: 18px; font-size: clamp(20px, 3vw, 34px); font-weight: 900; line-height: 1.1;
-      display: inline-flex; gap: 10px; align-items: center; flex-wrap: wrap;
-      filter: drop-shadow(0 8px 26px rgba(255,255,255,.08));
-    }
-    .focus-chip {
-      position: relative; padding: 8px 14px; border-radius: 14px; color: var(--white);
-      isolation: isolate; backdrop-filter: blur(2px);
-    }
-    .focus-chip::before {
-      content: ""; position: absolute; inset: 0; border-radius: 14px;
-      border: 2px solid rgba(255,255,255,.85); filter: drop-shadow(0 0 14px rgba(255,255,255,.35));
-      z-index: -1;
-      /* borde con "respirar" sutil */
-      animation: tf-pulse 2.2s ease-in-out infinite;
-    }
-    @keyframes tf-pulse {
-      0%,100% { box-shadow: 0 0 0 0 rgba(255,255,255,.25); }
-      50% { box-shadow: 0 0 20px 6px rgba(255,255,255,.2); }
-    }
-    .unfocus { color: #c8d8d1; opacity: .6; filter: blur(.2px); }
-
-    .hero-card {
-      position: relative; border-radius: var(--radius); padding: 20px; overflow: hidden;
-      background: rgba(8, 12, 10, 0.6); border: 1px solid rgba(223,247,230,.18); box-shadow: var(--shadow);
-    }
-
-    /* LASER FLOW (fondo animado del formulario) */
-    .laser-flow {
-      position: absolute; inset: -20%; z-index: 0; pointer-events: none; filter: blur(16px) saturate(1.1);
-    }
-    .laser-flow::before, .laser-flow::after {
-      content: ""; position: absolute; inset: 0;
+    .aura::before, .aura::after{
+      content:""; position:absolute; inset:-20%; mix-blend-mode:screen; opacity:.65; filter: blur(18px);
       background:
-        radial-gradient(120px 20px at 20% 30%, rgba(40,210,120,.55), transparent 70%),
-        radial-gradient(140px 24px at 80% 60%, rgba(190,255,220,.45), transparent 70%),
-        radial-gradient(100px 18px at 50% 80%, rgba(60,240,160,.35), transparent 70%);
-      mix-blend-mode: screen;
-      animation: lf-shift 9s linear infinite;
-      opacity: .9;
+        radial-gradient(22rem 8rem at 20% 30%, rgba(40,210,120,.35), transparent 65%),
+        radial-gradient(26rem 9rem at 80% 60%, rgba(140,255,200,.25), transparent 65%),
+        radial-gradient(18rem 7rem at 50% 80%, rgba(60,240,160,.25), transparent 65%);
+      animation: auraMove 20s linear infinite;
     }
-    .laser-flow::after {
+    .aura::after{
+      opacity:.5;
       background:
-        radial-gradient(120px 20px at 70% 20%, rgba(40,210,120,.55), transparent 70%),
-        radial-gradient(140px 24px at 30% 70%, rgba(190,255,220,.45), transparent 70%),
-        radial-gradient(100px 18px at 40% 40%, rgba(60,240,160,.35), transparent 70%);
-      animation-duration: 13s; animation-direction: reverse; opacity: .75;
+        radial-gradient(24rem 8rem at 70% 20%, rgba(40,210,120,.35), transparent 65%),
+        radial-gradient(28rem 9rem at 30% 70%, rgba(140,255,200,.25), transparent 65%),
+        radial-gradient(20rem 7rem at 40% 40%, rgba(60,240,160,.25), transparent 65%);
+      animation-duration: 28s; animation-direction: reverse;
     }
-    @keyframes lf-shift {
-      0% { transform: translate(-6%, -4%) rotate(0deg) }
-      50% { transform: translate(6%, 4%) rotate(180deg) }
-      100% { transform: translate(-6%, -4%) rotate(360deg) }
+    @keyframes auraMove{0%{transform:translate3d(-3%,-2%,0) rotate(0)}50%{transform:translate3d(3%,2%,0) rotate(180deg)}100%{transform:translate3d(-3%,-2%,0) rotate(360deg)}}
+    @media (prefers-reduced-motion: reduce){ .aura::before, .aura::after{ animation:none } }
+
+    .container{max-width:var(--maxw); margin:0 auto; padding:24px;}
+    header{padding-top:14px}
+    .brand{display:flex; align-items:center; gap:10px; color:var(--soft); font-weight:700; letter-spacing:.3px;}
+    .brand .dot{width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 8px rgba(24,169,87,.18)}
+    .hero{padding:86px 0 40px}
+    .grid{display:grid; grid-template-columns:1.1fr .9fr; gap:32px; align-items:center}
+
+    h1.title{font-size: clamp(38px, 7vw, 86px); font-weight:900; line-height:.95; letter-spacing:-.02em; margin:8px 0 12px;}
+    .subtitle{color:var(--muted); font-size: clamp(15px, 2.2vw, 18px); max-width:680px}
+
+    /* Decrypted + True Focus */
+    .decrypted{font-weight:800; font-size: clamp(18px, 2.6vw, 28px); color:var(--soft); margin:.3rem 0 0;}
+    .decrypted .enc{opacity:.7}
+    .true-focus{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:12px 0 8px; filter: drop-shadow(0 8px 26px rgba(255,255,255,.06));}
+    .chip{position:relative; padding:8px 14px; border-radius:14px; color:#fff; font-weight:900}
+    .chip::before{content:""; position:absolute; inset:0; border:2px solid rgba(255,255,255,.9); border-radius:14px; box-shadow:0 0 18px rgba(255,255,255,.25); animation:pulse 2.4s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.18)}50%{box-shadow:0 0 20px 6px rgba(255,255,255,.18)}}
+    .muted{color:#c9d6d1; opacity:.65}
+
+    /* Card formulario (con “Laser Flow” sutil) */
+    .card{position:relative; border-radius:var(--radius); padding:20px; overflow:hidden; background: rgba(9,12,10,.65); border:1px solid rgba(223,247,230,.18); box-shadow:var(--shadow); backdrop-filter: blur(6px);}
+    .card .flow{position:absolute; inset:-20%; z-index:0; filter: blur(16px) saturate(1.1); opacity:.75; mix-blend-mode:screen; pointer-events:none;
+      background:
+        radial-gradient(22rem 8rem at 20% 30%, rgba(40,210,120,.45), transparent 65%),
+        radial-gradient(26rem 9rem at 80% 60%, rgba(190,255,220,.35), transparent 65%),
+        radial-gradient(18rem 7rem at 50% 80%, rgba(60,240,160,.28), transparent 65%);
+      animation: flowMove 16s linear infinite;
     }
+    .card .flow::after{content:""; position:absolute; inset:0; background:
+        radial-gradient(24rem 8rem at 70% 20%, rgba(40,210,120,.45), transparent 65%),
+        radial-gradient(28rem 9rem at 30% 70%, rgba(190,255,220,.35), transparent 65%),
+        radial-gradient(20rem 7rem at 40% 40%, rgba(60,240,160,.28), transparent 65%); animation: flowMove 22s linear infinite reverse; opacity:.6}
+    @keyframes flowMove{0%{transform:translate(-4%,-3%) rotate(0)}50%{transform:translate(4%,3%) rotate(180deg)}100%{transform:translate(-4%,-3%) rotate(360deg)}}
+    @media (prefers-reduced-motion: reduce){ .card .flow, .card .flow::after{ animation:none } }
 
-    /* FORM */
-    .form { position: relative; z-index: 1; display: grid; gap: 14px; }
-    .field { display: grid; gap: 8px; }
-    .label { font-size: 14px; color: var(--soft); font-weight: 600; }
-    .input, .select, .file {
-      width: 100%; padding: 14px; border-radius: 12px; border: 1px solid rgba(223,247,230,.35);
-      background: #0f0f0f; color: var(--text);
-      transition: border-color .2s ease, box-shadow .2s ease;
-    }
-    .input:focus, .select:focus, .file:focus { border-color: var(--ring); box-shadow: 0 0 0 4px rgba(183,236,204,.15); outline: none; }
-    .helper { font-size: 12px; color: var(--muted); }
-    .consent { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: #cfd6d3; }
-    .disclaimer { font-size: 11px; color: #9fb0a8; }
+    /* Form */
+    form.form{position:relative; z-index:1; display:grid; gap:14px}
+    .field{display:grid; gap:8px}
+    .label{font-size:13px; color:var(--soft); font-weight:700; letter-spacing:.2px}
+    .input, .select, .file{width:100%; padding:14px; border-radius:12px; border:1px solid rgba(223,247,230,.35); background:#0f0f0f; color:var(--text); transition:border-color .2s ease, box-shadow .2s ease; outline:none}
+    .input:focus, .select:focus, .file:focus{border-color:var(--ring); box-shadow:0 0 0 4px rgba(183,236,204,.15)}
+    .consent{display:flex; align-items:flex-start; gap:10px; font-size:12px; color:#cfd6d3}
+    .btn{appearance:none; border:0; border-radius:999px; padding:14px 22px; font-weight:800; cursor:pointer; background:linear-gradient(180deg, var(--accent), #118a47); color:#fff; box-shadow:var(--shadow); transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;}
+    .btn:hover{transform:translateY(-2px)} .btn:disabled{opacity:.6; cursor:not-allowed}
+    .helper{font-size:12px; color:var(--muted)} .disclaimer{font-size:11px; color:#9fb0a8}
 
-    /* BENEFICIOS */
-    .benefits { margin: 64px 0 16px; display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
-    .card { background: var(--card); border: 1px solid rgba(223,247,230,.1); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
-    .card h3 { margin: 0 0 8px; font-size: 18px; }
-    .card p { margin: 0; color: #cfd6d3; font-size: 14px; }
+    .section{padding:40px 0}
+    .cards{display:grid; grid-template-columns: repeat(3,1fr); gap:18px}
+    .mini{background:var(--card); border:1px solid rgba(223,247,230,.12); border-radius:16px; padding:18px; box-shadow:var(--shadow)}
+    .mini h3{margin:0 0 8px; font-size:18px} .mini p{margin:0; color:#cfd6d3; font-size:14px}
 
-    /* CÍRCULOS ( rotación por rAF, suave, sin saltos ) */
-    .stats-circles{ display:grid; grid-template-columns: repeat(2, minmax(220px, 1fr)); gap:24px; align-items:center; justify-items:center; margin:40px 0; }
-    .circle-wrap{ position:relative; width:240px; height:240px; border-radius:50%; display:grid; place-items:center; background: radial-gradient(120px 120px at center, rgba(223,247,230,.06), transparent 60%); }
-    .circular-text{ position:absolute; inset:0; border-radius:50%; pointer-events:auto; will-change: transform; }
-    .circular-text span{ position:absolute; left:50%; top:50%; transform-origin: 0 0; font-size:14px; letter-spacing:1px; color:#dff7e6; }
-    .circle-center{ position:relative; z-index:2; text-align:center; background: rgba(223,247,230,.06); border:1px solid rgba(223,247,230,.18); border-radius: 16px; padding:16px 18px; min-width:160px; box-shadow: var(--shadow); }
-    .circle-center .big{ font-size: clamp(22px, 4.4vw, 32px); font-weight: 900; color:#fff; line-height:1; }
-    .circle-center .label{ font-size:13px; color:#9fb0a8; margin-top:6px; }
-    .shiny-text{ display:inline-block; font-weight:800; background: linear-gradient(120deg, #ffffff 0%, #bdeed0 25%, #18a957 50%, #bdeed0 75%, #ffffff 100%); -webkit-background-clip:text; background-clip:text; color: transparent; animation: pe-shimmer var(--speed, 5s) linear infinite; filter: drop-shadow(0 1px 0 rgba(0,0,0,.15)); }
-    @keyframes pe-shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+    /* Círculos métricas */
+    .stats{display:grid; grid-template-columns:repeat(2, minmax(220px, 1fr)); gap:24px; align-items:center; justify-items:center}
+    .circle{position:relative; width:240px; height:240px; border-radius:50%; display:grid; place-items:center; background: radial-gradient(120px 120px at center, rgba(223,247,230,.06), transparent 60%)}
+    .ring{position:absolute; inset:0; border-radius:50%; will-change:transform}
+    .ring span{position:absolute; left:50%; top:50%; transform-origin:0 0; font-size:14px; letter-spacing:1px; color:#dff7e6}
+    .center{position:relative; z-index:1; text-align:center; background:rgba(223,247,230,.06); border:1px solid rgba(223,247,230,.18); border-radius:16px; padding:16px 18px; min-width:160px; box-shadow:var(--shadow)}
+    .center .big{font-size:clamp(22px, 4.2vw, 32px); font-weight:900; color:#fff; line-height:1}
+    .center .sub{font-size:13px; color:#9fb0a8; margin-top:6px}
+    .shiny{display:inline-block; font-weight:900; background: linear-gradient(120deg, #ffffff 0%, #bdeed0 25%, #18a957 50%, #bdeed0 75%, #ffffff 100%); -webkit-background-clip:text; background-clip:text; color: transparent; animation: shimmer var(--speed, 5s) linear infinite}
+    @keyframes shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+    @media (prefers-reduced-motion: reduce){ .shiny{animation:none; color:#fff; -webkit-text-fill-color:#fff} }
+
+    /* ===== TESTIMONIOS (marquee continuo con glow) ===== */
+    .testi-wrap{position:relative; overflow:hidden; border-radius:16px; border:1px solid rgba(223,247,230,.12); background:linear-gradient(180deg, rgba(223,247,230,.05), rgba(223,247,230,.03)); box-shadow:var(--shadow);}
+    .testi-glow{position:absolute; inset:-10%; pointer-events:none; mix-blend-mode:screen; filter: blur(22px); opacity:.6;
+      background:
+        radial-gradient(26rem 9rem at 20% 60%, rgba(40,210,120,.35), transparent 65%),
+        radial-gradient(24rem 8rem at 80% 40%, rgba(190,255,220,.30), transparent 65%);}
+    .marquee{display:flex; gap:18px; will-change: transform; padding:18px;}
+    .lane{display:flex; gap:18px; align-items:stretch}
+    .tcard{min-width:320px; max-width:320px; display:flex; flex-direction:column; gap:10px; padding:16px; border-radius:14px; background:#0f1210; border:1px solid rgba(223,247,230,.12); box-shadow: 0 10px 20px rgba(0,0,0,.25)}
+    .who{display:flex; align-items:center; gap:10px}
+    .avatar{width:36px; height:36px; border-radius:50%; background:linear-gradient(180deg, #17a457, #0e7c3f)}
+    .name{font-weight:800}
+    .stars{color:#e6ffef; letter-spacing:2px; font-size:14px}
+    .when{color:#9fb0a8; font-size:12px}
+    .text{color:#cfe6d9; font-size:14px; line-height:1.45}
+    .g-badge{margin-left:auto; font-size:12px; color:#bfead1; opacity:.85}
 
     /* FAQ + footer */
-    .faq { margin: 40px 0 80px; }
-    .faq-item { border: 1px solid rgba(223,247,230,.15); border-radius: 14px; margin-bottom: 12px; overflow: hidden; }
-    .faq-q { width: 100%; text-align: left; background: #101010; color: #e5fff1; padding: 16px 18px; border: 0; cursor: pointer; font-weight: 700; }
-    .faq-a { padding: 0 18px 16px; color: #cbd8d3; display: none; }
-    .faq-item[open] .faq-a { display: block; }
-    footer { border-top: 1px solid rgba(223,247,230,.12); padding: 26px 0; color: #9fb0a8; font-size: 13px; }
+    .faq details{border:1px solid rgba(223,247,230,.12); border-radius:14px; overflow:hidden; margin-bottom:12px}
+    .faq summary{list-style:none; background:#101010; color:#e5fff1; padding:16px 18px; font-weight:800; cursor:pointer}
+    .faq summary::-webkit-details-marker{display:none}
+    .faq .answer{padding:0 18px 16px; color:#cbd8d3}
+    footer{border-top:1px solid rgba(223,247,230,.12); padding:26px 0; color:#9fb0a8; font-size:13px}
 
     /* Responsive */
     @media (max-width:980px){
-      .hero { padding: 72px 0 32px; }
-      .hero-grid { grid-template-columns: 1fr; }
-      .benefits { grid-template-columns: 1fr; }
-      .stats-circles{ grid-template-columns: 1fr; }
+      .grid{grid-template-columns:1fr}
+      .cards{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr}
+      .hero{padding:72px 0 32px}
+      .tcard{min-width:280px; max-width:280px}
     }
   </style>
 </head>
 <body>
-  <header class="container" style="padding-top:18px">
-    <div class="badge" data-sr>Partner Energético · Estudio gratuito de tu factura</div>
+  <div class="aura" aria-hidden="true"></div>
+
+  <header class="container">
+    <div class="brand" data-sr><span class="dot"></span> Partner Energético</div>
   </header>
 
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <h1 id="animated-title" class="title" data-sr>PARTNER ENERGÉTICO</h1>
-
-        <!-- Decrypted Text -->
-        <p id="decrypted" class="decrypted" data-sr>
-          <span class="enc">•••••••••••••••••••••••••••••••••••••••••••••</span>
-        </p>
-
-        <!-- True Focus -->
-        <div class="true-focus" data-sr>
-          <span class="unfocus">Analizamos tu factura y</span>
-          <span class="focus-chip">ENCONTRAMOS</span>
-          <span class="focus-chip">SOBRECOSTES</span>
-          <span class="unfocus">que puedes evitar.</span>
+  <main>
+    <section class="hero">
+      <div class="container grid">
+        <div>
+          <h1 id="title" class="title" data-sr>PARTNER ENERGÉTICO</h1>
+          <p id="decrypted" class="decrypted" data-sr><span class="enc">•••••••••••••••••••••••••••••••••••••••••••••</span></p>
+          <div class="true-focus" data-sr>
+            <span class="muted">Analizamos tu factura y</span>
+            <span class="chip">ENCONTRAMOS</span>
+            <span class="chip">SOBRECOSTES</span>
+            <span class="muted">que puedes evitar.</span>
+          </div>
+          <p class="subtitle" data-sr>Detectamos ahorros reales optimizando potencia, tarifas y condiciones. Informe claro, sin coste ni compromiso.</p>
         </div>
 
-        <p class="subtitle" data-sr>
-          Analizo tu contrato y tu consumo para detectar ahorros reales: optimización de potencia, tarifa y condiciones.
-          Te doy un informe claro y sin compromiso.
-        </p>
+        <aside class="card" data-sr>
+          <div class="flow" aria-hidden="true"></div>
+          <form id="lead" class="form" novalidate>
+            <div class="field"><label class="label" for="name">Nombre y apellidos</label><input class="input" id="name" name="name" type="text" required placeholder="Tu nombre completo"></div>
+            <div class="field"><label class="label" for="email">Email</label><input class="input" id="email" name="email" type="email" required placeholder="tucorreo@ejemplo.com"></div>
+            <div class="field"><label class="label" for="phone">Teléfono</label><input class="input" id="phone" name="phone" type="tel" required placeholder="+34 6XX XXX XXX"></div>
+            <label class="consent"><input type="checkbox" id="gdpr" required> <span>Acepto el tratamiento de mis datos según la política de privacidad.</span></label>
+            <button id="cta" class="btn" type="submit">Quiero mi estudio gratuito</button>
+            <p class="disclaimer">Sin coste ni compromiso. Te contactaré en 24h.</p>
+            <div id="ok" class="helper" style="display:none;color:#b9f0c9;">¡Solicitud enviada! Te contactamos en breve.</div>
+            <div id="err" class="helper" style="display:none;color:#f1b7b7;">Revisa los campos marcados.</div>
+          </form>
+        </aside>
       </div>
+    </section>
 
-      <aside class="hero-card" data-sr>
-        <!-- Laser Flow background -->
-        <div class="laser-flow" aria-hidden="true"></div>
-
-        <!-- Formulario -->
-        <form id="lead-form" class="form">
-          <div class="field"><label class="label">Nombre y apellidos</label><input class="input" id="name" type="text" required></div>
-          <div class="field"><label class="label">Email</label><input class="input" id="email" type="email" required></div>
-          <div class="field"><label class="label">Teléfono</label><input class="input" id="phone" type="tel" required></div>
-          <label class="consent"><input type="checkbox" id="gdpr" required> <span>Acepto el tratamiento de mis datos según la política de privacidad.</span></label>
-          <button class="btn" id="submitBtn" type="submit">Quiero mi estudio gratuito</button>
-          <p class="disclaimer">Sin coste ni compromiso. Te contactaré en 24h.</p>
-          <div id="success" class="helper" style="display:none;color:#b9f0c9;">¡Solicitud enviada con éxito!</div>
-        </form>
-      </aside>
-    </div>
-  </section>
-
-  <section class="container" data-sr>
-    <div class="benefits">
-      <div class="card"><h3>Optimización de potencia</h3><p>Paga solo por lo que necesitas, sin penalizaciones.</p></div>
-      <div class="card"><h3>Tarifa adecuada</h3><p>Comparamos mercado regulado y libre para maximizar tu ahorro.</p></div>
-      <div class="card"><h3>Informe claro</h3><p>Resultados comprensibles y recomendaciones reales.</p></div>
-    </div>
-  </section>
-
-  <!-- Círculos -->
-  <section class="container" aria-label="Datos de confianza" data-sr>
-    <div class="stats-circles">
-      <div class="circle-wrap">
-        <div class="circular-text" data-text="+100.000 CLIENTES • " data-radius="98" data-speed="0.7" data-hover="speedUp"></div>
-        <div class="circle-center"><div class="big"><span class="shiny-text" style="--speed:4s">+100.000</span></div><div class="label">clientes</div></div>
+    <section class="container section" data-sr>
+      <div class="cards">
+        <div class="mini"><h3>Optimización de potencia</h3><p>Ajuste por periodos para pagar solo lo necesario.</p></div>
+        <div class="mini"><h3>Tarifa adecuada</h3><p>Comparamos mercado regulado y libre sin sesgos.</p></div>
+        <div class="mini"><h3>Informe claro</h3><p>Recomendaciones accionables y acompañamiento.</p></div>
       </div>
-      <div class="circle-wrap">
-        <div class="circular-text" data-text="+15 AÑOS DE EXPERIENCIA • " data-radius="98" data-speed="0.55" data-hover="slowDown"></div>
-        <div class="circle-center"><div class="big"><span class="shiny-text" style="--speed:6s">+15</span></div><div class="label">años de experiencia</div></div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="container faq" data-sr>
-    <details class="faq-item" open><summary class="faq-q">¿Cuánto tarda el estudio?</summary><div class="faq-a">Normalmente en 24–48h desde que recibimos tu factura.</div></details>
-    <details class="faq-item"><summary class="faq-q">¿Tiene algún coste?</summary><div class="faq-a">No, es totalmente gratuito y sin compromiso.</div></details>
-  </section>
+    <!-- Métricas -->
+    <section class="container section" data-sr aria-label="Datos de confianza">
+      <div class="stats">
+        <div class="circle">
+          <div class="ring" data-ring data-text="+100.000 CLIENTES • " data-radius="98" data-speed="0.7" data-hover="speedUp"></div>
+          <div class="center"><div class="big"><span class="shiny" style="--speed:4s">+100.000</span></div><div class="sub">clientes</div></div>
+        </div>
+        <div class="circle">
+          <div class="ring" data-ring data-text="+15 AÑOS DE EXPERIENCIA • " data-radius="98" data-speed="0.55" data-hover="slowDown"></div>
+          <div class="center"><div class="big"><span class="shiny" style="--speed:6s">+15</span></div><div class="sub">años de experiencia</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonios (marquee continuo con glow) -->
+    <section class="container section" data-sr aria-label="Testimonios de Google">
+      <div class="testi-wrap">
+        <div class="testi-glow" aria-hidden="true"></div>
+        <div class="marquee" id="marquee">
+          <div class="lane" id="lane"></div>
+          <div class="lane" id="lane-clone" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="container section faq" data-sr>
+      <details open><summary>¿Cuánto tarda el estudio?</summary><div class="answer">Normalmente 24–48h desde que recibimos tu factura.</div></details>
+      <details><summary>¿Tiene algún coste?</summary><div class="answer">No. Nuestro servicio se remunera por acuerdos con comercializadoras.</div></details>
+    </section>
+  </main>
 
   <footer class="container" data-sr>© <span id="year"></span> Partner Energético · Política de privacidad</footer>
 
   <script>
-    /* ====== Split del título (GSAP) ====== */
+    /* ===== Configura aquí tus reseñas (pégalos tal cual de Google) ===== */
+    const REVIEWS = [
+      // ⚠️ Reemplaza los textos de ejemplo por tus reseñas reales de Google
+      { name: "Leonardo Perez", rating: 5, when: "2025", text: "Servicio excelente. Me explicó todo de forma clara y encontré ahorro real en mi factura." },
+      { name: "Joan Castellets", rating: 5, when: "2025", text: "Desde el primer día ha tenido un trato cercano y me ha transmitido confianza a la hora de realizar los cambios recomendados.
+
+Lo recomiendo al 100% por sus ganas y su profesionalidad.." },
+      { name: "Usuario de Google", rating: 5, when: "2025", text: "Transparencia total. Informe detallado y recomendaciones sencillas de aplicar." },
+      { name: "Álvaro Clemente", rating: 5, when: "2025", text: "Al principio revisamos la factura de mi casa, pensando que alomejor habia que hacer un leve ajuste, pero cuando vi el ahorro que podia tener anualmente, entendí cuanto me estaban robando, y que ya me habian robado suficiente.
+
+He decidido cerrar la factura de casa y el bar que tengo con Alfredo, además de que el servicio es gratuito, el año que viene vendan otra vez a revisarmelo, estoy contentisimo y lo recomiendo aunque no sepas si estas pagando de mas o no, simplemente para confirmar.." },
+    ];
+
+    /* ===== Accesibilidad / preferencias ===== */
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* ===== Utilidades ===== */
     function splitToChars(el){
       const t = el.textContent.trim(); el.textContent = "";
       const f = document.createDocumentFragment();
-      for (const c of t){ const s = document.createElement("span"); s.className = "char"; s.textContent = c===" "?"\\u00A0":c; f.appendChild(s); }
+      for (const c of t){ const s=document.createElement("span"); s.className="char"; s.textContent=(c===" ")?"\u00A0":c; f.appendChild(s); }
       el.appendChild(f); return Array.from(el.querySelectorAll(".char"));
     }
 
-    /* ====== Decrypted Text (inspirado en ReactBits) ====== */
-    function decryptedText(el, finalText, options={}){
+    function decryptedText(el, finalText, {speed=22, maxIterations=14}={}){
+      if (prefersReduced){ el.textContent = finalText; return; }
       const chars = "-_~`!@#$%^&*()+=[]{}|;:,.<>/?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      const speed = options.speed || 28;         // ms por iteración
-      const maxI  = options.maxIterations || 16; // cuánto “barullo”
-      const revealOn = options.revealOn || "view"; // "view" o "load"
-
-      const run = () => {
-        let frame = 0;
-        const out = finalText.split("").map(_=>({ ch: "", lock: false }));
-        const timer = setInterval(()=>{
-          let done = 0;
-          for (let i=0;i<out.length;i++){
-            if (finalText[i]===" "){ out[i]={ch:" ",lock:true}; done++; continue; }
-            if (!out[i].lock){
-              if (frame > i + Math.random()*maxI) { out[i] = { ch: finalText[i], lock:true }; }
-              else { out[i] = { ch: chars[Math.floor(Math.random()*chars.length)], lock:false }; }
-            } else { done++; }
-          }
-          el.textContent = out.map(o=>o.ch).join("");
-          if (done === out.length){ clearInterval(timer); el.classList.remove("enc"); }
-          frame++;
-        }, speed);
-      };
-
-      if (revealOn === "load") run();
-      else {
-        const io = new IntersectionObserver((entries)=>{
-          if (entries[0].isIntersecting){ run(); io.disconnect(); }
-        }, { threshold: .6 });
-        io.observe(el);
-      }
+      let frame=0; const out = finalText.split("").map(()=>({ch:"",lock:false}));
+      const timer = setInterval(()=>{
+        let done=0;
+        for (let i=0;i<out.length;i++){
+          if (finalText[i]===" "){ out[i]={ch:" ",lock:true}; done++; continue; }
+          if (!out[i].lock){
+            if (frame > i + Math.random()*maxIterations) out[i]={ch:finalText[i],lock:true};
+            else out[i]={ch: chars[(Math.random()*chars.length)|0], lock:false};
+          } else done++;
+        }
+        el.textContent = out.map(o=>o.ch).join("");
+        if (done===out.length) clearInterval(timer);
+        frame++;
+      }, speed);
     }
 
-    /* ====== True Focus (efecto ya montado en CSS con chips y desenfoque del resto) ====== */
-    // No requiere JS adicional para el borde blanco animado.
-
-    /* ====== ScrollReveal (toda la página) ====== */
     function initScrollReveal(){
-      if (!window.ScrollReveal) return;
-      ScrollReveal().reveal("[data-sr]", {
-        distance: "30px",
-        duration: 800,
-        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-        interval: 80,
-        origin: "bottom",
-        cleanup: true
-      });
+      if (!window.ScrollReveal || prefersReduced) return;
+      ScrollReveal().reveal("[data-sr]", { distance:"24px", duration:800, easing:"cubic-bezier(0.22,1,0.36,1)", interval:80, origin:"bottom", cleanup:true });
     }
 
-    /* ====== Círculos — rotación con requestAnimationFrame (suave y sin saltos) ====== */
-    function createCircularText(el,text,radius){
-      el.innerHTML=""; const chars = Array.from(text); const total=chars.length;
-      chars.forEach((ch,i)=>{ const span=document.createElement("span");
-        const angle=(360/total)*i; span.style.transform = `translate(-50%,-50%) rotate(${angle}deg) translate(${radius}px) rotate(${-angle}deg)`;
-        span.textContent=ch; el.appendChild(span);
-      });
+    function animateTitle(){
+      const el = document.getElementById("title");
+      const chars = splitToChars(el);
+      if (prefersReduced || !window.gsap) return;
+      gsap.registerPlugin(ScrollTrigger);
+      chars.forEach(c=>{ c.style.opacity=0; c.style.transform="translateY(34px)"; });
+      gsap.to(chars,{opacity:1, y:0, duration:.55, ease:"power3.out", stagger:.02, scrollTrigger:{trigger:el, start:"top 80%", once:true}});
     }
-    function rafRotate(el, opts){
-      // velocidad base en vueltas/segundo (p.e. 0.7)
-      let base = opts.speed || 0.6;
-      let targetFactor = 1; // multiplicador por hover
-      let factor = 1;
-      let start = performance.now();
+
+    /* ===== Métricas: texto circular suave con rAF ===== */
+    function buildRing(el,text,radius){
+      el.innerHTML=""; const chars = Array.from(text); const total=chars.length;
+      for(let i=0;i<total;i++){ const span=document.createElement("span"); const angle=(360/total)*i;
+        span.style.transform=`translate(-50%,-50%) rotate(${angle}deg) translate(${radius}px) rotate(${-angle}deg)`; span.textContent=chars[i]; el.appendChild(span);}
+    }
+    function spinRing(el, baseRps=0.6, hoverMode="speedUp"){
+      if (prefersReduced) return;
+      let factor=1, target=1, last=performance.now();
       function tick(now){
-        const t = (now - start) / 1000;             // segundos
-        factor += (targetFactor - factor) * 0.08;   // suavizado
-        const angle = (t * base * factor * 360) % 360;
-        el.style.transform = `rotate(${angle}deg)`;
+        const dt=(now-last)/1000; last=now; factor+= (target-factor)*0.1;
+        const prev=parseFloat(el._angle||0); const next=prev+(baseRps*factor*360*dt); el._angle=next%360;
+        el.style.transform=`rotate(${el._angle}deg)`; requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      const modes={speedUp:3.2, slowDown:0.45, goBonkers:10, steady:1};
+      el.addEventListener("mouseenter", ()=> target = modes[hoverMode] ?? 1, {passive:true});
+      el.addEventListener("mouseleave", ()=> target = 1, {passive:true});
+    }
+
+    /* ===== Testimonios: marquee continuo sin cortes ===== */
+    function stars(n){ return "★★★★★".slice(0, n) }
+    function createCard(r){
+      const el = document.createElement("div");
+      el.className = "tcard";
+      el.innerHTML = `
+        <div class="who">
+          <div class="avatar" aria-hidden="true"></div>
+          <div>
+            <div class="name">${r.name}</div>
+            <div class="stars" aria-label="${r.rating} de 5">${stars(r.rating)}</div>
+          </div>
+          <div class="g-badge">Google</div>
+        </div>
+        <div class="text">“${r.text}”</div>
+        <div class="when">${r.when}</div>
+      `;
+      return el;
+    }
+    function initMarquee(){
+      const lane = document.getElementById("lane");
+      const clone = document.getElementById("lane-clone");
+      lane.innerHTML = ""; clone.innerHTML = "";
+      REVIEWS.forEach(r => lane.appendChild(createCard(r)));
+      // duplicamos contenido para loop
+      lane.querySelectorAll(".tcard").forEach(c => clone.appendChild(c.cloneNode(true)));
+
+      if (prefersReduced) return;
+
+      const marquee = document.getElementById("marquee");
+      let pos = 0;
+      let speed = 42; // px/seg base
+      let targetSpeed = speed;
+      let last = performance.now();
+
+      function widthOf(el){ return Array.from(el.children).reduce((w,c)=> w + c.getBoundingClientRect().width + 18, 0); }
+      let laneW = widthOf(lane);
+
+      function tick(now){
+        const dt = (now - last) / 1000; last = now;
+        speed += (targetSpeed - speed) * 0.08; // suavizado
+        pos -= speed * dt;
+        if (-pos >= laneW) { pos += laneW; } // reset suave cuando termina el primer bloque
+        marquee.style.transform = `translateX(${pos}px)`;
         requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
 
-      // hover modes
-      const mode = el.dataset.hover || "speedUp";
-      el.addEventListener("mouseenter", ()=>{
-        targetFactor = (mode==="speedUp") ? 3.5 : (mode==="slowDown" ? 0.4 : (mode==="goBonkers" ? 12 : 1));
-      });
-      el.addEventListener("mouseleave", ()=>{ targetFactor = 1; });
+      // Recalcular al redimensionar
+      new ResizeObserver(()=>{ laneW = widthOf(lane); }).observe(lane);
+
+      // Hover acelera un poco (no pausa -> sin cortes)
+      marquee.addEventListener("mouseenter", ()=> targetSpeed = 68, {passive:true});
+      marquee.addEventListener("mouseleave", ()=> targetSpeed = 42, {passive:true});
     }
 
-    /* ====== Form dummy submit ====== */
+    /* ===== Form dummy submit ===== */
     function initForm(){
-      const form=document.getElementById("lead-form");
-      const btn=document.getElementById("submitBtn");
-      const ok=document.getElementById("success");
+      const form = document.getElementById("lead");
+      const btn = document.getElementById("cta");
+      const ok = document.getElementById("ok");
+      const err = document.getElementById("err");
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phoneRe = /[0-9]{6,}/;
+
       form.addEventListener("submit",(e)=>{
-        e.preventDefault(); btn.disabled=true; btn.textContent="Enviando...";
-        setTimeout(()=>{ ok.style.display="block"; form.reset(); btn.textContent="¡Enviado!"; setTimeout(()=>{ btn.disabled=false; btn.textContent="Quiero mi estudio gratuito"; },1800); },900);
+        e.preventDefault(); ok.style.display="none"; err.style.display="none";
+        const name = form.name.value.trim();
+        const email = form.email.value.trim();
+        const phone = form.phone.value.trim();
+        const gdpr = document.getElementById("gdpr").checked;
+        const valid = name && emailRe.test(email) && phoneRe.test(phone.replace(/\D/g,"")) && gdpr;
+        if(!valid){ err.style.display="block"; return; }
+        btn.disabled = true; const old = btn.textContent; btn.textContent="Enviando…";
+        setTimeout(()=>{ ok.style.display="block"; form.reset(); btn.textContent="¡Enviado!"; setTimeout(()=>{ btn.disabled=false; btn.textContent=old; },1600); },900);
       });
     }
 
-    /* ====== Título animado (GSAP) ====== */
-    function animateTitle(){
-      const title=document.getElementById("animated-title");
-      const chars=splitToChars(title);
-      chars.forEach(c=>{c.style.opacity=0;c.style.transform="translateY(40px)";});
-      if (window.gsap){ gsap.registerPlugin(ScrollTrigger);
-        gsap.to(chars,{opacity:1,y:0,duration:.6,ease:"power3.out",stagger:.02,scrollTrigger:{trigger:title,start:"top 80%",once:true}});
-      }
-    }
-
+    /* ===== Start ===== */
     window.addEventListener("DOMContentLoaded", ()=>{
       document.getElementById("year").textContent = new Date().getFullYear();
 
-      // Decrypted Text content
-      const decEl = document.getElementById("decrypted");
-      const finalMsg = "Te ayudamos a entender la factura de la luz, y lo más importante, que AHORRES";
-      decryptedText(decEl, finalMsg, { speed: 22, maxIterations: 14, revealOn: "view" });
+      const msg = "Te ayudamos a entender la factura de la luz, y lo más importante, que AHORRES";
+      decryptedText(document.getElementById("decrypted"), msg, { speed: 22, maxIterations: 14 });
 
-      // ScrollReveal
-      initScrollReveal();
-
-      // Title
+      if (window.ScrollReveal) {
+        ScrollReveal().reveal("[data-sr]", { distance:"24px", duration:800, easing:"cubic-bezier(0.22,1,0.36,1)", interval:80, origin:"bottom", cleanup:true });
+      }
       animateTitle();
 
       // Círculos
-      document.querySelectorAll(".circular-text").forEach(el=>{
+      document.querySelectorAll("[data-ring]").forEach(el=>{
         const text   = el.dataset.text || "CIRCULAR • TEXT • ";
         const radius = parseFloat(el.dataset.radius || "98");
         const speed  = parseFloat(el.dataset.speed || "0.6");
-        createCircularText(el, text, radius);
-        rafRotate(el, { speed });
+        const hover  = el.dataset.hover || "speedUp";
+        buildRing(el, text, radius); spinRing(el, speed, hover);
       });
+
+      // Testimonios
+      initMarquee();
 
       // Form
       initForm();
