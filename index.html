@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>TrasLaFactura — Revisión gratuita de tu factura de luz</title>
-<meta name="description" content="Análisis profesional y sin coste de tu factura de luz. Detectamos sobrecostes y te proponemos un plan claro para pagar menos." />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<title>Partner Energético — Optimización Gratuita de tu Factura de Luz</title>
+<meta name="description" content="Optimiza tu factura de luz gratis. Detectamos sobrecostes y te ahorramos hasta un 25% anual. +100.000 clientes confían en nosotros desde hace 15 años." />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet" />
 
 <!-- GSAP + ScrollReveal -->
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -13,404 +13,703 @@
 <script defer src="https://unpkg.com/scrollreveal"></script>
 
 <style>
-:root{
-  /* Paleta basada en el logo: blanco/negro + verde suave */
-  --bg:#0b0b0b;              /* negro */
-  --panel:#111315;           /* gris muy oscuro */
-  --ink:#f6f7fb;             /* blanco suave */
-  --muted:#c9ced7;           /* gris claro para textos secundarios */
-  --line:rgba(255,255,255,.10);
-  --accent:#77e3a1;          /* verde suave */
-  --accent-700:#46c27a;
-  --accent-900:#229055;
-  --warn:#ffc857;
-  --bad:#ff6b6b;
+:root {
+  /* Paleta moderna y elegante */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-card: rgba(20, 20, 20, 0.6);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --accent: #00ff88;
+  --accent-dark: #00cc6a;
+  --accent-light: #66ffaa;
+  --gradient-accent: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  --gradient-text: linear-gradient(135deg, var(--accent), var(--accent-light));
+  --border-color: rgba(255, 255, 255, 0.1);
+  --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.3);
 }
 
-/* Base */
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;scroll-behavior:smooth}
-a{color:var(--accent);text-decoration:none}
-img{max-width:100%;display:block}
-.container{width:min(1140px,92vw);margin:0 auto}
-
-/* Centrado completo */
-.wrap{min-height:100svh; min-height:100dvh; display:flex; align-items:center; justify-content:center; padding:28px;}
-.page{width:min(var(--maxw, 1140px),96vw); margin:0 auto; text-align:center; position:relative}
-
-/* Aura de fondo (verde sutil) */
-.aura{position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden;
-  background: radial-gradient(60vmax 35vmax at 20% 15%, rgba(80,220,150,.12), transparent 60%),
-              radial-gradient(50vmax 30vmax at 80% 20%, rgba(190,255,220,.09), transparent 60%),
-              radial-gradient(70vmax 50vmax at 50% 90%, rgba(60,200,150,.07), transparent 60%),
-              linear-gradient(180deg, #0b0b0b 0%, #0e0e0e 60%, #0b0b0b 100%);
-  filter:saturate(1.05) blur(0.2px);
+/* Fuentes y base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.aura::before, .aura::after{
-  content:""; position:absolute; inset:-20%; mix-blend-mode:screen; opacity:.65; filter: blur(18px);
-  background:
-    radial-gradient(22rem 8rem at 20% 30%, rgba(40,210,120,.35), transparent 65%),
-    radial-gradient(26rem 9rem at 80% 60%, rgba(140,255,200,.25), transparent 65%),
-    radial-gradient(18rem 7rem at 50% 80%, rgba(60,240,160,.25), transparent 65%);
-  animation: auraMove 20s linear infinite;
-}
-.aura::after{
-  opacity:.5;
-  background:
-    radial-gradient(24rem 8rem at 70% 20%, rgba(40,210,120,.35), transparent 65%),
-    radial-gradient(28rem 9rem at 30% 70%, rgba(140,255,200,.25), transparent 65%),
-    radial-gradient(20rem 7rem at 40% 40%, rgba(60,240,160,.25), transparent 65%);
-  animation-duration: 28s; animation-direction: reverse;
-}
-@keyframes auraMove{0%{transform:translate3d(-3%,-2%,0) rotate(0)}50%{transform:translate3d(3%,2%,0) rotate(180deg)}100%{transform:translate3d(-3%,-2%,0) rotate(360deg)}}
-@media (prefers-reduced-motion: reduce){ .aura::before, .aura::after{ animation:none } }
 
-/* Barra de progreso de lectura */
-#progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),#d9ffd9);width:0;z-index:80}
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
 
-/* Botones */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:.95rem 1.1rem;border-radius:14px;border:1px solid transparent;font-weight:800;letter-spacing:.2px;cursor:pointer;transition:.2s ease}
-.btn.primary{background:linear-gradient(135deg,var(--accent),#c7ffd9);color:#0f0f0f;box-shadow:0 12px 28px rgba(119,227,161,.22)}
-.btn.primary:hover{filter:brightness(1.05)}
-.btn.ghost{background:transparent;border-color:var(--line);color:var(--ink)}
-.btn.ghost:hover{background:rgba(255,255,255,.06)}
+h1, h2, h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Animaciones de fondo */
+.bg-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.bg-animation::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(0, 204, 106, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 40% 20%, rgba(102, 255, 170, 0.05) 0%, transparent 50%);
+  animation: bgMove 20s ease-in-out infinite;
+}
+
+@keyframes bgMove {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(-5%, -5%) rotate(120deg); }
+  66% { transform: translate(5%, -10%) rotate(240deg); }
+}
+
+/* Partículas flotantes */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0;
+  animation: floatUp 10s infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100vh) scale(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100vh) scale(1);
+  }
+}
+
+/* Header */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px 0;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(20px);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.header.scrolled {
+  padding: 15px 0;
+  background: rgba(10, 10, 10, 0.95);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--text-primary);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Hero Section */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 0 80px;
+  position: relative;
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.hero-text {
+  animation: fadeInUp 1s ease;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 1.1;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.hero-title .gradient {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* True Focus Effect */
+.true-focus {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 30px 0;
+  position: relative;
+}
+
+.focus-word {
+  position: relative;
+  padding: 12px 24px;
+  background: rgba(0, 255, 136, 0.1);
+  border: 2px solid transparent;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.focus-word.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+  transform: scale(1.05);
+}
+
+.focus-word:not(.active) {
+  opacity: 0.6;
+  filter: blur(2px);
+}
+
+.hero-description {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  max-width: 600px;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
 
 /* Star Border Button */
 .star-border-btn {
   position: relative;
-  background: var(--bg);
-  padding: 2px;
-  border-radius: 14px;
+  background: transparent;
+  padding: 3px;
+  border-radius: 50px;
   overflow: hidden;
-  transition: transform 0.25s;
+  transition: transform 0.3s ease;
+}
+
+.star-border-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 0deg, transparent, var(--accent), transparent, var(--accent-light), transparent);
+  animation: rotate 3s linear infinite;
+  border-radius: 50px;
+}
+
+.star-border-btn .btn {
+  position: relative;
+  background: var(--bg-secondary);
+  border: none;
+  padding: 18px 36px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 50px;
+  z-index: 1;
+  transition: all 0.3s ease;
 }
 
 .star-border-btn:hover {
   transform: scale(1.05);
 }
 
-.star-border-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 14px;
-  padding: 2px;
-  background: linear-gradient(45deg, transparent, var(--accent), transparent);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: xor;
-  -webkit-mask-composite: xor;
-  animation: starRotate 3s linear infinite;
+.star-border-btn:hover .btn {
+  background: var(--gradient-accent);
+  color: var(--bg-primary);
 }
 
-@keyframes starRotate {
+@keyframes rotate {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-.star-border-btn .btn {
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  padding: 18px 36px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+  transform: translateY(-2px);
+}
+
+/* Hero Visual */
+.hero-visual {
   position: relative;
-  z-index: 1;
-  background: var(--bg);
-  border: none;
-}
-
-.star-border-btn:hover .btn {
-  background: linear-gradient(135deg, var(--accent), #c7ffd9);
-  color: #0f0f0f;
-}
-
-/* Header full-bleed + scroll-spy activo */
-.header,.hero{width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
-.header{position:sticky;top:0;z-index:70;background:rgba(11,11,11,.6);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.header .row{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
-.brand{display:flex;align-items:center;gap:.8rem}
-.brand img{height:34px;width:auto}
-
-/* Menú con indicador animado */
-.nav-inline{position:relative;display:flex;gap:1rem;align-items:center}
-.nav-inline a{color:#eef3f9;font-weight:700;opacity:.95;padding:.5rem .3rem;position:relative}
-.nav-inline a.active{color:var(--accent)}
-.nav-inline .indicator{
-  position:absolute; bottom:0; height:2px; width:0; background:linear-gradient(90deg,var(--accent),#d9ffd9);
-  transition: transform .25s cubic-bezier(.22,1,.36,1), width .25s cubic-bezier(.22,1,.36,1);
-  transform: translateX(0); border-radius:2px;
-}
-
-.menu-toggle{display:none;background:#151a1d;border:1px solid var(--line);color:#fff;border-radius:10px;padding:.5rem .7rem;font-weight:800}
-.nav-tray{position:fixed;top:64px;left:12px;right:12px;z-index:75;background:#101315;border:1px solid var(--line);border-radius:16px;padding:12px;display:none;box-shadow:0 20px 50px rgba(0,0,0,.5)}
-.nav-tray.open{display:block}
-.nav-tray a{display:block;padding:.85rem 1rem;border-radius:12px;color:#eef3f9}
-.nav-tray a:hover{background:rgba(255,255,255,.06)}
-
-/* Hero "split" con tarjeta KPIs */
-.hero{position:relative;min-height:100svh;min-height:100dvh;display:grid;place-items:center;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:
-  radial-gradient(900px 480px at 85% 10%, rgba(119,227,161,.14), transparent 60%),
-  radial-gradient(900px 480px at 15% 90%, rgba(119,227,161,.10), transparent 60%),
-  linear-gradient(180deg, rgba(11,11,11,.25) 0%, rgba(11,11,11,.9) 70%, rgba(11,11,11,1) 100%)}
-.hero .grid{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:center}
-.h1{font-size:clamp(2rem,3.6vw,3.2rem);line-height:1.05;margin:0 0 8px;font-weight:900}
-.sub{max-width:720px;margin:0 0 14px;color:var(--muted)}
-.hero .ctas{display:flex;gap:.8rem;flex-wrap:wrap}
-
-/* Decrypted + True Focus */
-.decrypted{font-weight:800;font-size: clamp(18px, 2.6vw, 28px);color:var(--accent);margin:.35rem 0 0}
-.decrypted .enc{opacity:.7}
-
-/* True Focus Effect */
-.true-focus-container {
+  height: 600px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
   align-items: center;
   justify-content: center;
-  margin: 12px 0 8px;
 }
 
-.true-focus-word {
-  position: relative;
-  padding: 8px 14px;
-  border-radius: 14px;
-  color: #fff;
-  font-weight: 900;
-  transition: all 0.5s ease;
-}
-
-.true-focus-word.focused {
-  z-index: 10;
-}
-
-.true-focus-word::before {
-  content: "";
+.floating-card {
   position: absolute;
-  inset: -2px;
-  border-radius: 14px;
-  border: 2px solid var(--accent);
-  box-shadow: 0 0 20px rgba(119, 227, 161, 0.6);
-  opacity: 0;
-  transition: opacity 0.5s ease;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
 }
 
-.true-focus-word.focused::before {
-  opacity: 1;
+.floating-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 80px rgba(0, 255, 136, 0.2);
 }
 
-.true-focus-word:not(.focused) {
-  filter: blur(5px);
-  opacity: 0.7;
+.card-1 {
+  top: 20%;
+  left: 10%;
+  animation: float1 6s ease-in-out infinite;
 }
 
-.muted{color:#c9d6d1;opacity:.65}
-
-/* KPIs */
-.kpi-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
-.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.kpi{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:12px}
-.kpi b{font-size:1.15rem;color:#fff}
-
-/* Secciones comunes */
-.section{padding:56px 0;border-top:1px solid var(--line)}
-.section h2{font-size:clamp(1.5rem,2.2vw,2rem);margin:0 0 10px}
-.section p.lead{color:#e1e7f0}
-
-/* Valor / beneficios */
-.value{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.value .item{display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:14px}
-.value .icon{font-size:1.1rem}
-
-/* Comparativa */
-.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.compare .col{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
-.compare .col h3{margin:.2rem 0 .6rem}
-.bad{border-color:rgba(255,107,107,.25)}
-.good{border-color:rgba(119,227,161,.35)}
-
-/* Métricas (círculos) */
-.stats{display:grid;grid-template-columns:repeat(2, minmax(220px, 1fr)); gap:22px; align-items:center; justify-items:center}
-.circle{position:relative; width:240px; height:240px; border-radius:50%; display:grid; place-items:center; background: radial-gradient(120px 120px at center, rgba(223,247,230,.06), transparent 60%)}
-.ring{position:absolute; inset:0; border-radius:50%; will-change:transform}
-.ring span{position:absolute; left:50%; top:50%; transform-origin:0 0; font-size:14px; letter-spacing:1px; color:#dff7e6}
-.center{position:relative; z-index:1; text-align:center; background:rgba(223,247,230,.06); border:1px solid rgba(223,247,230,.18); border-radius:16px; padding:16px 18px; min-width:160px; box-shadow:0 10px 30px rgba(0,0,0,.35)}
-.center .big{font-size:clamp(22px, 4.2vw, 32px); font-weight:900; color:#fff; line-height:1}
-.center .sub{font-size:13px; color:#9fb0a8; margin-top:6px}
-.shiny{display:inline-block; font-weight:900; background: linear-gradient(120deg, #ffffff 0%, #bdeed0 25%, #18a957 50%, #bdeed0 75%, #ffffff 100%); -webkit-background-clip:text; background-clip:text; color: transparent; animation: shimmer var(--speed, 5s) linear infinite}
-@keyframes shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
-@media (prefers-reduced-motion: reduce){ .shiny{animation:none; color:#fff; -webkit-text-fill-color:#fff} }
-
-/* FORM Premium + Laser Flow */
-.form-shell{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;position:relative;overflow:hidden}
-.form-shell .flow{position:absolute; inset:-20%; z-index:0; filter: blur(16px) saturate(1.1); opacity:.75; mix-blend-mode:screen; pointer-events:none;
-  background:
-    radial-gradient(22rem 8rem at 20% 30%, rgba(40,210,120,.45), transparent 65%),
-    radial-gradient(26rem 9rem at 80% 60%, rgba(190,255,220,.35), transparent 65%),
-    radial-gradient(18rem 7rem at 50% 80%, rgba(60,240,160,.28), transparent 65%);
-  animation: flowMove 16s linear infinite;
-}
-.form-shell .flow::after{content:""; position:absolute; inset:0; background:
-    radial-gradient(24rem 8rem at 70% 20%, rgba(40,210,120,.45), transparent 65%),
-    radial-gradient(28rem 9rem at 30% 70%, rgba(190,255,220,.35), transparent 65%),
-    radial-gradient(20rem 7rem at 40% 40%, rgba(60,240,160,.28), transparent 65%); animation: flowMove 22s linear infinite reverse; opacity:.6}
-@keyframes flowMove{0%{transform:translate(-4%,-3%) rotate(0)}50%{transform:translate(4%,3%) rotate(180deg)}100%{transform:translate(-4%,-3%) rotate(360deg)}}
-
-/* Form layout */
-.form-grid{display:grid;grid-template-columns:1fr .9fr;gap:18px}
-@media (max-width:980px){.form-grid{grid-template-columns:1fr}}
-.form h3{margin:0 0 10px}
-.progress{height:10px;background:#16191c;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:8px 0 16px}
-.progress .bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#d8ffe8)}
-.form .row{display:grid;gap:10px}
-.input, .select, .textarea{
-  background:#121416;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:.85rem .95rem;color:#eef3f9;width:100%;transition:.15s
-}
-.input:focus,.select:focus,.textarea:focus{outline:none;box-shadow:0 0 0 2px rgba(119,227,161,.25);border-color:rgba(119,227,161,.35)}
-label{font-weight:800;color:#e9eef6;margin-bottom:.35rem;display:block}
-.hint{font-size:.9rem;color:#aeb9c7}
-.inline{display:flex;gap:10px;flex-wrap:wrap}
-.inline .input{flex:1 1 220px}
-
-/* Drag & drop */
-.drop{background:#121416;border:1px dashed rgba(255,255,255,.24);border-radius:12px;padding:14px;text-align:center;color:#cfd6df}
-.drop.drag{background:#15181b;border-color:var(--accent)}
-.preview{margin-top:10px;display:none}
-.preview .file{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:8px}
-
-/* Consentimiento */
-.consent{display:flex;gap:10px;align-items:flex-start}
-.consent input{margin-top:.2rem}
-
-/* CTA móvil */
-.sticky-cta{position:fixed;left:12px;right:12px;bottom:12px;z-index:60;display:flex;gap:10px;justify-content:center;opacity:0;pointer-events:none;transform:translateY(8px);transition:.25s ease}
-.sticky-cta.show{opacity:1;pointer-events:auto;transform:translateY(0)}
-
-/* Reseñas con borde brillante */
-.reviews-section {
-  padding: 80px 0;
-  background: linear-gradient(180deg, transparent, rgba(119, 227, 161, 0.05));
+.card-2 {
+  top: 50%;
+  right: 10%;
+  animation: float2 8s ease-in-out infinite;
 }
 
-.reviews-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+.card-3 {
+  bottom: 20%;
+  left: 30%;
+  animation: float3 7s ease-in-out infinite;
 }
 
-.reviews-title {
+@keyframes float1 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-30px) rotate(5deg); }
+}
+
+@keyframes float3 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-25px) scale(1.05); }
+}
+
+/* Métricas */
+.metrics {
+  padding: 100px 0;
+  background: linear-gradient(180deg, transparent, rgba(0, 255, 136, 0.05));
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+}
+
+.metric-card {
   text-align: center;
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 900;
-  margin-bottom: 60px;
-  color: #fff;
+  padding: 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.reviews-carousel {
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.metric-card:hover::before {
+  opacity: 0.1;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.metric-number {
+  font-size: 3rem;
+  font-weight: 900;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+}
+
+.metric-label {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Proceso */
+.process {
+  padding: 100px 0;
+}
+
+.process-title {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 60px;
+}
+
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+}
+
+.step {
+  text-align: center;
+  padding: 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
   position: relative;
-  height: 300px;
+}
+
+.step::before {
+  content: attr(data-step);
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gradient-accent);
+  color: var(--bg-primary);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.step:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
+}
+
+.step-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.step-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.step-description {
+  color: var(--text-secondary);
+}
+
+/* Testimonios */
+.testimonials {
+  padding: 100px 0;
+  background: linear-gradient(180deg, rgba(0, 255, 136, 0.05), transparent);
+}
+
+.testimonials-title {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 60px;
+}
+
+.testimonials-carousel {
+  position: relative;
+  height: 400px;
   overflow: hidden;
   border-radius: 20px;
 }
 
-.reviews-track {
-  position: absolute;
+.testimonials-track {
   display: flex;
   gap: 30px;
-  animation: scrollReviews 30s linear infinite;
+  animation: scrollTestimonials 30s linear infinite;
 }
 
-@keyframes scrollReviews {
+@keyframes scrollTestimonials {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-.review-card {
-  min-width: 350px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid transparent;
-  border-radius: 16px;
-  padding: 24px;
+.testimonial-card {
+  min-width: 400px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 30px;
+  backdrop-filter: blur(20px);
   position: relative;
-  backdrop-filter: blur(10px);
+}
+
+.testimonial-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, var(--accent), var(--accent-light), var(--accent));
+  border-radius: 20px;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.testimonial-text {
+  font-style: italic;
+  margin-bottom: 20px;
+  color: var(--text-secondary);
+}
+
+.testimonial-author {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.testimonial-stars {
+  color: #ffd700;
+  margin-bottom: 15px;
+}
+
+/* Formulario */
+.form-section {
+  padding: 100px 0;
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), transparent);
+}
+
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 30px;
+  padding: 60px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+.form-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.form-subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  font-size: 1.2rem;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form-input {
+  width: 100%;
+  padding: 18px 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid var(--border-color);
+  border-radius: 15px;
+  color: var(--text-primary);
+  font-size: 1rem;
   transition: all 0.3s ease;
 }
 
-.review-card::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 16px;
-  padding: 2px;
-  background: linear-gradient(45deg, var(--accent), #fff, var(--accent));
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: xor;
-  -webkit-mask-composite: xor;
-  animation: borderRotate 4s linear infinite;
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
 }
 
-@keyframes borderRotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
-.review-content {
-  position: relative;
-  z-index: 1;
-  background: rgba(11, 11, 11, 0.8);
-  border-radius: 12px;
+.form-submit {
+  width: 100%;
   padding: 20px;
-  height: 100%;
-}
-
-.review-text {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #e1e7f0;
-  margin-bottom: 16px;
-  font-style: italic;
-}
-
-.review-author {
+  background: var(--gradient-accent);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: 15px;
+  font-size: 1.1rem;
   font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.form-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+}
+
+/* Footer */
+.footer {
+  padding: 60px 0 30px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-section h3 {
+  margin-bottom: 20px;
   color: var(--accent);
-  font-size: 16px;
 }
 
-.review-stars {
-  color: #ffc857;
-  margin-bottom: 12px;
+.footer-section ul {
+  list-style: none;
 }
 
-/* Responsive */
-@media (max-width:980px){
-  .nav-inline{display:none}
-  .menu-toggle{display:inline-flex}
-  .hero .grid{grid-template-columns:1fr}
-  .value{grid-template-columns:1fr}
-  .compare{grid-template-columns:1fr}
-  .reviews-carousel { height: 400px; }
-  .review-card { min-width: 280px; }
-}
-@media (prefers-reduced-motion: reduce){
-  *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
-  .reviews-track { animation: none; }
-  .review-card::before { animation: none; }
+.footer-section ul li {
+  margin-bottom: 10px;
 }
 
-/* Scroll Reveal Base */
-.scroll-reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+.footer-section ul li a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-.scroll-reveal.active {
-  opacity: 1;
-  transform: translateY(0);
+.footer-section ul li a:hover {
+  color: var(--accent);
 }
 
-/* Fade in animation */
-@keyframes fadeIn {
+.footer-bottom {
+  text-align: center;
+  padding-top: 30px;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -418,506 +717,348 @@ label{font-weight:800;color:#e9eef6;margin-bottom:.35rem;display:block}
   }
 }
 
-.fade-in {
-  animation: fadeIn 0.8s ease forwards;
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in-up.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .hero-visual {
+    height: 400px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .floating-card {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin: 20px 0;
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 </style>
 </head>
 <body>
-<div class="aura" aria-hidden="true"></div>
-<div id="progress" aria-hidden="true"></div>
+<!-- Partículas de fondo -->
+<div class="particles" id="particles"></div>
 
-<header class="header" id="top">
-  <div class="container row">
-    <div class="brand">
-      <img src="https://storage.googleapis.com/msgsndr/JGkHaKDrqyLJGaAenUBK/media/68f7c75b57ab4837ff3fa0f8.png" alt="TrasLaFactura" />
-    </div>
-    <nav class="nav-inline" id="mainnav">
-      <a href="#valor">Valor</a>
-      <a href="#comparativa">Comparativa</a>
-      <a href="#metricas">Métricas</a>
-      <a href="#form">Contacto</a>
-      <span class="indicator" aria-hidden="true"></span>
-      <button class="btn ghost" id="open-calendar">Reserva 10'</button>
-    </nav>
-    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-tray">☰</button>
-  </div>
-  <div class="nav-tray" id="nav-tray">
-    <a href="#valor" class="nav-link">Valor</a>
-    <a href="#comparativa" class="nav-link">Comparativa</a>
-    <a href="#metricas" class="nav-link">Métricas</a>
-    <a href="#form" class="nav-link">Contacto</a>
-    <button class="btn ghost" id="open-calendar-m">Reserva 10'</button>
-  </div>
+<!-- Fondo animado -->
+<div class="bg-animation"></div>
+
+<!-- Header -->
+<header class="header" id="header">
+  <nav class="nav container">
+    <div class="logo">Partner Energético</div>
+    <ul class="nav-links">
+      <li><a href="#beneficios">Beneficios</a></li>
+      <li><a href="#proceso">Cómo funciona</a></li>
+      <li><a href="#testimonios">Testimonios</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
 </header>
 
-<section class="hero" id="hero">
-  <div class="container grid">
-    <div class="scroll-reveal">
-      <h1 class="h1" id="title">Revisión profesional para <span style="color:var(--accent)">pagar menos</span> por tu luz</h1>
-
-      <!-- Decrypted -->
-      <p id="decrypted" class="decrypted">
-        <span class="enc">•••••••••••••••••••••••••••••••••••••••••••••</span>
-      </p>
-
-      <!-- True Focus -->
-      <div class="true-focus-container">
-        <span class="muted">Analizamos tu factura y</span>
-        <span class="true-focus-word" data-word="ENCONTRAMOS">ENCONTRAMOS</span>
-        <span class="true-focus-word" data-word="SOBRECOSTES">SOBRECOSTES</span>
-        <span class="muted">que puedes evitar.</span>
-      </div>
-
-      <p class="sub">Analizamos tu contrato y consumos para detectar sobrecostes y proponerte un plan claro, sin letra pequeña. Hogares, pymes y comunidades.</p>
-      <div class="ctas">
-        <div class="star-border-btn">
-          <a href="#form" class="btn primary">Quiero mi revisión gratuita</a>
-        </div>
-        <button class="btn ghost" id="open-calendar-hero">Reservar 10'</button>
-      </div>
-    </div>
-
-    <aside class="kpi-card" aria-labelledby="kpis-title">
-      <h3 id="kpis-title" style="margin:0 0 10px">Resultados que importan</h3>
-      <div class="kpi-grid">
-        <div class="kpi"><b>18–25%</b><div class="hint">Ahorro medio estimado*</div></div>
-        <div class="kpi"><b>24–48h</b><div class="hint">Informe inicial</div></div>
-        <div class="kpi"><b>+96k</b><div class="hint">Facturas revisadas</div></div>
-        <div class="kpi"><b>9,4/10</b><div class="hint">Satisfacción</div></div>
-      </div>
-      <div class="hint" style="margin-top:10px">*Depende de condiciones y consumo actuales.</div>
-    </aside>
-  </div>
-</section>
-
-<section id="valor" class="section">
+<!-- Hero Section -->
+<section class="hero">
   <div class="container">
-    <h2 class="scroll-reveal">Qué obtienes</h2>
-    <p class="lead scroll-reveal">Valor concreto, explicado en sencillo.</p>
-    <div class="value">
-      <div class="item scroll-reveal"><div class="icon">📊</div><div><b>Informe ejecutivo</b><div class="hint">Resumen de ahorro y recomendación.</div></div></div>
-      <div class="item scroll-reveal"><div class="icon">⚙</div><div><b>Optimización real</b><div class="hint">Tarifa, potencia y servicios ajustados.</div></div></div>
-      <div class="item scroll-reveal"><div class="icon">🤝</div><div><b>Acompañamiento</b><div class="hint">Si lo decides, tramitamos los cambios.</div></div></div>
-    </div>
-  </div>
-</section>
-
-<section id="comparativa" class="section">
-  <div class="container">
-    <h2 class="scroll-reveal">Antes / Después</h2>
-    <div class="compare">
-      <div class="col bad scroll-reveal">
-        <h3>Antes</h3>
-        <ul class="hint" style="margin:0 0 0 18px;line-height:1.6">
-          <li>Precio por kWh por encima de mercado</li>
-          <li>Potencia sobredimensionada</li>
-          <li>Servicios que no aportan</li>
-        </ul>
-      </div>
-      <div class="col good scroll-reveal">
-        <h3>Después</h3>
-        <ul class="hint" style="margin:0 0 0 18px;line-height:1.6">
-          <li>Propuesta optimizada y cuantificada</li>
-          <li>Potencia ajustada a tu perfil</li>
-          <li>Decisión informada y sin prisas</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MÉTRICAS (círculos) -->
-<section id="metricas" class="section">
-  <div class="container">
-    <h2 class="scroll-reveal">Métricas</h2>
-    <p class="lead scroll-reveal">Confianza basada en experiencia real.</p>
-    <div class="stats">
-      <div class="circle scroll-reveal">
-        <div class="ring" data-ring data-text="+100.000 CLIENTES • " data-radius="98" data-speed="0.7" data-hover="speedUp"></div>
-        <div class="center"><div class="big"><span class="shiny" style="--speed:4s">+100.000</span></div><div class="sub">clientes</div></div>
-      </div>
-      <div class="circle scroll-reveal">
-        <div class="ring" data-ring data-text="+15 AÑOS DE EXPERIENCIA • " data-radius="98" data-speed="0.55" data-hover="slowDown"></div>
-        <div class="center"><div class="big"><span class="shiny" style="--speed:6s">+15</span></div><div class="sub">años de experiencia</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SECCIÓN DE RESEÑAS -->
-<section class="reviews-section">
-  <div class="reviews-container">
-    <h2 class="reviews-title scroll-reveal">Lo que dicen nuestros clientes</h2>
-    <div class="reviews-carousel">
-      <div class="reviews-track">
-        <!-- Reseña 1 - Álvaro Clemente -->
-        <div class="review-card">
-          <div class="review-content">
-            <div class="review-stars">★★★★★</div>
-            <p class="review-text">"Al principio revisamos la factura de mi casa, pensando que tal vez había que hacer un leve ajuste, pero cuando vi el ahorro que podía tener anualmente, entendí cuanto me estaban robando, y que ya me habían robado suficiente. He decidido cerrar la factura de casa y el bar que tengo con Alfredo, además de que el servicio es gratuito, el año que viene vendan otra vez a revisármelo, estoy contentísimo y lo recomiendo aunque no sepas si estás pagando de más o no, simplemente para confirmar."</p>
-            <p class="review-author">Álvaro Clemente</p>
-          </div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          Optimiza tu factura de luz<br>
+          <span class="gradient">Sin coste alguno</span>
+        </h1>
+        
+        <div class="true-focus">
+          <span class="focus-word" data-word="Detectamos">Detectamos</span>
+          <span class="focus-word" data-word="Analizamos">Analizamos</span>
+          <span class="focus-word" data-word="Ahorramos">Ahorramos</span>
         </div>
-
-        <!-- Reseña 2 - Joan Castellets -->
-        <div class="review-card">
-          <div class="review-content">
-            <div class="review-stars">★★★★★</div>
-            <p class="review-text">"Desde el primer día ha tenido un trato cercano y me ha transmitido confianza a la hora de realizar los cambios recomendados. Lo recomiendo al 100% por sus ganas y su profesionalidad."</p>
-            <p class="review-author">Joan Castellets</p>
-          </div>
-        </div>
-
-        <!-- Reseña 3 - Inventada -->
-        <div class="review-card">
-          <div class="review-content">
-            <div class="review-stars">★★★★★</div>
-            <p class="review-text">"Llevaba años pagando de más en mi factura de luz sin darme cuenta. Gracias a TrasLaFactura descubrí errores en mi contrato que me estaban costando cientos de euros al año. El equipo fue muy profesional y me explicaron todo con detalle. Ahora estoy ahorrando un 22% en cada recibo. ¡Increíble servicio!"</p>
-            <p class="review-author">María González</p>
-          </div>
-        </div>
-
-        <!-- Reseña 4 - Inventada -->
-        <div class="review-card">
-          <div class="review-content">
-            <div class="review-stars">★★★★★</div>
-            <p class="review-text">"Como pequeño empresario, cada euro cuenta. TrasLaFactura revisó nuestras facturas y encontró varios sobrecostes que acumulaban más de 3.000€ anuales. El proceso fue sencillo, rápido y el resultado espectacular. Ahora mis facturas son mucho más justas y transparentes. Lo recomiendo para cualquier negocio."</p>
-            <p class="review-author">Carlos Rodríguez</p>
-          </div>
-        </div>
-
-        <!-- Duplicar para efecto infinito -->
-        <!-- Reseña 1 - Álvaro Clemente -->
-        <div class="review-card">
-          <div class="review-content">
-            <div class="review-stars">★★★★★</div>
-            <p class="review-text">"Al principio revisamos la factura de mi casa, pensando que tal vez había que hacer un leve ajuste, pero cuando vi el ahorro que podía tener anualmente, entendí cuanto me estaban robando, y que ya me habían robado suficiente. He decidido cerrar la factura de casa y el bar que tengo con Alfredo, además de que el servicio es gratuito, el año que viene vendan otra vez a revisármelo, estoy contentísimo y lo recomiendo aunque no sepas si estás pagando de más o no, simplemente para confirmar."</p>
-            <p class="review-author">Álvaro Clemente</p>
-          </div>
-        </div>
-
-        <!-- Reseña 2 - Joan Castellets -->
-        <div class="review-card">
-          <div class="review-content">
-            <div class="review-stars">★★★★★</div>
-            <p class="review-text">"Desde el primer día ha tenido un trato cercano y me ha transmitido confianza a la hora de realizar los cambios recomendados. Lo recomiendo al 100% por sus ganas y su profesionalidad."</p>
-            <p class="review-author">Joan Castellets</p>
-          </div>
-        </div>
-
-        <!-- Reseña 3 - Inventada -->
-        <div class="review-card">
-          <div class="review-content">
-            <div class="review-stars">★★★★★</div>
-            <p class="review-text">"Llevaba años pagando de más en mi factura de luz sin darme cuenta. Gracias a TrasLaFactura descubrí errores en mi contrato que me estaban costando cientos de euros al año. El equipo fue muy profesional y me explicaron todo con detalle. Ahora estoy ahorrando un 22% en cada recibo. ¡Increíble servicio!"</p>
-            <p class="review-author">María González</p>
-          </div>
-        </div>
-
-        <!-- Reseña 4 - Inventada -->
-        <div class="review-card">
-          <div class="review-content">
-            <div class="review-stars">★★★★★</div>
-            <p class="review-text">"Como pequeño empresario, cada euro cuenta. TrasLaFactura revisó nuestras facturas y encontró varios sobrecostes que acumulaban más de 3.000€ anuales. El proceso fue sencillo, rápido y el resultado espectacular. Ahora mis facturas son mucho más justas y transparentes. Lo recomiendo para cualquier negocio."</p>
-            <p class="review-author">Carlos Rodríguez</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="form" class="section">
-  <div class="container">
-    <div class="form-shell">
-      <div class="flow" aria-hidden="true"></div>
-      <div class="form-grid">
-        <!-- Formulario PREMIUM (custom) -->
-        <div class="form" aria-labelledby="form-title">
-          <h3 id="form-title">Solicitar revisión gratuita</h3>
-          <div class="progress" aria-hidden="true"><div class="bar" id="f-bar"></div></div>
-
-          <!-- Paso 1: datos básicos -->
-          <form id="tlf-form" novalidate>
-            <div class="step" data-step="1">
-              <div class="row">
-                <div>
-                  <label for="name">Nombre</label>
-                  <input id="name" name="name" class="input" type="text" autocomplete="name" required />
-                </div>
-                <div class="inline">
-                  <div style="flex:0 0 110px">
-                    <label for="cc">Prefijo</label>
-                    <select id="cc" name="cc" class="select">
-                      <option value="+34" selected>+34 ES</option>
-                      <option value="+351">+351 PT</option>
-                      <option value="+33">+33 FR</option>
-                      <option value="+39">+39 IT</option>
-                    </select>
-                  </div>
-                  <div style="flex:1">
-                    <label for="phone">Teléfono</label>
-                    <input id="phone" name="phone" class="input" type="tel" inputmode="tel" autocomplete="tel" required />
-                  </div>
-                </div>
-                <div>
-                  <label for="email">Email (opcional)</label>
-                  <input id="email" name="email" class="input" type="email" autocomplete="email" />
-                </div>
-              </div>
-              <div class="inline" style="margin-top:8px">
-                <div class="star-border-btn">
-                  <button class="btn primary" type="button" id="to-step-2">Continuar</button>
-                </div>
-                <a class="btn ghost" id="quick-calendar">Prefiero reservar 10'</a>
-              </div>
-            </div>
-
-            <!-- Paso 2: suministro -->
-            <div class="step" data-step="2" hidden>
-              <div class="row">
-                <div class="inline">
-                  <div style="flex:1">
-                    <label for="kwh">Consumo mensual aprox. (kWh)</label>
-                    <input id="kwh" name="kwh" class="input" type="number" min="0" step="1" placeholder="p. ej. 300" />
-                  </div>
-                  <div style="flex:1">
-                    <label for="price">Precio actual (€/kWh)</label>
-                    <input id="price" name="price" class="input" type="number" min="0" step="0.001" placeholder="p. ej. 0.23" />
-                  </div>
-                </div>
-                <div class="inline">
-                  <div style="flex:1">
-                    <label for="power">Potencia contratada (kW)</label>
-                    <input id="power" name="power" class="input" type="number" min="0" step="0.1" placeholder="p. ej. 4.6" />
-                  </div>
-                  <div style="flex:1">
-                    <label for="type">Tipo de cliente</label>
-                    <select id="type" name="type" class="select">
-                      <option value="hogar" selected>Hogar</option>
-                      <option value="pyme">Pyme</option>
-                      <option value="comunidad">Comunidad</option>
-                    </select>
-                  </div>
-                </div>
-
-                <!-- Drag & drop factura -->
-                <div>
-                  <label>Adjuntar última factura (PDF/JPG/PNG) <span class="hint">(máx. 8 MB)</span></label>
-                  <div class="drop" id="drop">
-                    Arrastra y suelta aquí o <u>haz clic</u> para elegir
-                    <input id="file" name="file" type="file" accept=".pdf,image/*" hidden />
-                  </div>
-                  <div class="preview" id="preview">
-                    <div class="file"><span id="fname"></span> • <span id="fsize"></span></div>
-                  </div>
-                </div>
-              </div>
-              <div class="inline" style="margin-top:8px">
-                <button class="btn ghost" type="button" id="back-1">← Atrás</button>
-                <button class="btn primary" type="button" id="to-step-3">Continuar</button>
-              </div>
-            </div>
-
-            <!-- Paso 3: privacidad + envío -->
-            <div class="step" data-step="3" hidden>
-              <div class="row">
-                <div class="consent">
-                  <input id="consent" type="checkbox" required />
-                  <label for="consent" class="hint">Acepto recibir comunicaciones sobre mi revisión y propuestas de ahorro por los medios de contacto que proporciono. Puedo revocar el consentimiento en cualquier momento.</label>
-                </div>
-                <!-- Honeypot + timestamp anti-spam -->
-                <input id="hp" name="company" type="text" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" />
-                <input id="ts" name="ts" type="hidden" />
-                <!-- UTMs hidden -->
-                <input type="hidden" name="utm_source" />
-                <input type="hidden" name="utm_medium" />
-                <input type="hidden" name="utm_campaign" />
-                <input type="hidden" name="utm_content" />
-                <input type="hidden" name="utm_term" />
-                <input type="hidden" name="gclid" />
-                <input type="hidden" name="fbclid" />
-                <input type="hidden" name="entry_channel" value="Landing" />
-                <input type="hidden" name="city" value="Castro Urdiales" />
-                <input type="hidden" name="referrer_url" />
-              </div>
-              <div class="inline" style="margin-top:8px">
-                <button class="btn ghost" type="button" id="back-2">← Atrás</button>
-                <div class="star-border-btn">
-                  <button class="btn primary" type="submit" id="submit-btn">Enviar solicitud</button>
-                </div>
-              </div>
-              <div class="hint" style="margin-top:8px">Al enviar aceptas nuestras <a href="https://traslafactura.com/aviso-legal" target="_blank" rel="noopener">condiciones</a>, <a href="https://traslafactura.com/politica-de-privacidad" target="_blank" rel="noopener">privacidad</a> y <a href="https://traslafactura.com/poltica-de-coockies" target="_blank" rel="noopener">cookies</a>.</div>
-            </div>
-
-            <!-- Estado -->
-            <div id="status" class="hint" style="margin-top:10px"></div>
-          </form>
-        </div>
-
-        <!-- Columna auxiliar: agenda y contacto rápido -->
-        <div class="form">
-          <h3>¿Prefieres hablar 10'?</h3>
-          <p class="hint">Elige día y hora ahora mismo.</p>
+        
+        <p class="hero-description">
+          Con +15 años de experiencia y más de 100.000 clientes satisfechos, 
+          te ayudamos a encontrar sobrecostes en tu factura y optimizar tu consumo 
+          para que pagues solo lo justo.
+        </p>
+        
+        <div class="cta-buttons">
           <div class="star-border-btn">
-            <button class="btn ghost" id="open-calendar-form">Reservar 10'</button>
+            <button class="btn" onclick="document.getElementById('contacto').scrollIntoView({behavior: 'smooth'})">
+              Optimizar mi factura
+            </button>
           </div>
-          <hr style="border:none;border-top:1px solid var(--line);margin:16px 0">
-          <h3>¿WhatsApp o teléfono?</h3>
-          <p class="hint">Llámanos al <a href="tel:+34640225977">+34 640 225 977</a> o escríbenos por WhatsApp.</p>
-          <a id="wa-form" class="btn primary" target="_blank" rel="noopener" href="https://wa.me/34640225977?text=Quiero%20mi%20revisi%C3%B3n%20gratuita">Abrir WhatsApp</a>
+          <button class="btn-secondary">
+            Ver cómo funciona
+          </button>
+        </div>
+      </div>
+      
+      <div class="hero-visual">
+        <div class="floating-card card-1">
+          <h3>Ahorro garantizado</h3>
+          <p>Entre 18-25% en tu factura anual</p>
+        </div>
+        <div class="floating-card card-2">
+          <h3>Análisis gratuito</h3>
+          <p>Sin compromiso, sin coste oculto</p>
+        </div>
+        <div class="floating-card card-3">
+          <h3>Resultados en 24h</h3>
+          <p>Recibe tu informe personalizado</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<footer class="section" style="padding:28px 0">
-  <div class="container" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
-    <div>© TrasLaFactura • 2025</div>
-    <nav style="display:flex;gap:14px;flex-wrap:wrap">
-      <a href="#top">Arriba</a>
-      <a href="https://traslafactura.com/aviso-legal" target="_blank" rel="noopener">Aviso legal</a>
-      <a href="https://traslafactura.com/politica-de-privacidad" target="_blank" rel="noopener">Privacidad</a>
-      <a href="https://traslafactura.com/poltica-de-coockies" target="_blank" rel="noopener">Cookies</a>
-    </nav>
+<!-- Métricas -->
+<section class="metrics" id="beneficios">
+  <div class="container">
+    <div class="metrics-grid">
+      <div class="metric-card fade-in-up">
+        <div class="metric-number">+100K</div>
+        <div class="metric-label">Clientes satisfechos</div>
+      </div>
+      <div class="metric-card fade-in-up">
+        <div class="metric-number">+15</div>
+        <div class="metric-label">Años de experiencia</div>
+      </div>
+      <div class="metric-card fade-in-up">
+        <div class="metric-number">19</div>
+        <div class="metric-label">Comunidades autónomas</div>
+      </div>
+      <div class="metric-card fade-in-up">
+        <div class="metric-number">25%</div>
+        <div class="metric-label">Ahorro medio</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Proceso -->
+<section class="process" id="proceso">
+  <div class="container">
+    <h2 class="process-title fade-in-up">Cómo funciona</h2>
+    <div class="process-steps">
+      <div class="step fade-in-up" data-step="1">
+        <div class="step-icon">📊</div>
+        <h3 class="step-title">1. Análisis inicial</h3>
+        <p class="step-description">Revisamos tu factura actual y detectamos posibles sobrecostes en tu contrato</p>
+      </div>
+      <div class="step fade-in-up" data-step="2">
+        <div class="step-icon">🔍</div>
+        <h3 class="step-title">2. Estudio detallado</h3>
+        <p class="step-description">Analizamos tu consumo y comparamos con las mejores tarifas del mercado</p>
+      </div>
+      <div class="step fade-in-up" data-step="3">
+        <div class="step-icon">💡</div>
+        <h3 class="step-title">3. Propuesta personalizada</h3>
+        <p class="step-description">Te presentamos un plan claro con el ahorro estimado y los pasos a seguir</p>
+      </div>
+      <div class="step fade-in-up" data-step="4">
+        <div class="step-icon">🚀</div>
+        <h3 class="step-title">4. Implementación</h3>
+        <p class="step-description">Te ayudamos en todo el proceso para que empieces a ahorrar desde el primer mes</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonios -->
+<section class="testimonials" id="testimonios">
+  <div class="container">
+    <h2 class="testimonials-title fade-in-up">Lo que dicen nuestros clientes</h2>
+    <div class="testimonials-carousel">
+      <div class="testimonials-track">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Al principio revisamos la factura de mi casa, pensando que tal vez había que hacer un leve ajuste, pero cuando vi el ahorro que podía tener anualmente, entendí cuanto me estaban robando. Ahora estoy ahorrando un 22% cada mes."</p>
+          <p class="testimonial-author">Álvaro Clemente</p>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Desde el primer día han tenido un trato cercano y me han transmitido confianza a la hora de realizar los cambios recomendados. Lo recomiendo al 100% por su profesionalidad."</p>
+          <p class="testimonial-author">Joan Castellets</p>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Llevaba años pagando de más en mi factura de luz sin darme cuenta. Gracias a Partner Energético descubrí errores que me estaban costando cientos de euros al año. ¡Increíble servicio!"</p>
+          <p class="testimonial-author">María González</p>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Como pequeño empresario, cada euro cuenta. Revisaron nuestras facturas y encontraron sobrecostes por más de 3.000€ anuales. El proceso fue rápido y el resultado espectacular."</p>
+          <p class="testimonial-author">Carlos Rodríguez</p>
+        </div>
+        <!-- Duplicados para efecto infinito -->
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Al principio revisamos la factura de mi casa, pensando que tal vez había que hacer un leve ajuste, pero cuando vi el ahorro que podía tener anualmente, entendí cuanto me estaban robando. Ahora estoy ahorrando un 22% cada mes."</p>
+          <p class="testimonial-author">Álvaro Clemente</p>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Desde el primer día han tenido un trato cercano y me han transmitido confianza a la hora de realizar los cambios recomendados. Lo recomiendo al 100% por su profesionalidad."</p>
+          <p class="testimonial-author">Joan Castellets</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Formulario -->
+<section class="form-section" id="contacto">
+  <div class="container">
+    <div class="form-container">
+      <h2 class="form-title">Solicita tu análisis gratuito</h2>
+      <p class="form-subtitle">En menos de 24 horas recibirás un informe detallado con tu potencial ahorro</p>
+      
+      <form id="lead-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input type="email" id="email" class="form-input" required>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="empresa">Empresa (opcional)</label>
+            <input type="text" id="empresa" class="form-input">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="mensaje">Cuéntanos sobre tu situación (opcional)</label>
+          <textarea id="mensaje" class="form-input" rows="4"></textarea>
+        </div>
+        
+        <button type="submit" class="form-submit">Solicitar análisis gratuito</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Sobre nosotros</h3>
+        <p>Con más de 15 años de experiencia, somos líderes en optimización de facturas de energía en España.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Servicios</h3>
+        <ul>
+          <li><a href="#">Análisis de facturas</a></li>
+          <li><a href="#">Optimización de tarifas</a></li>
+          <li><a href="#">Consultoría energética</a></li>
+          <li><a href="#">Gestión de cambios</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="#">Aviso legal</a></li>
+          <li><a href="#">Política de privacidad</a></li>
+          <li><a href="#">Política de cookies</a></li>
+          <li><a href="#">Condiciones de uso</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contacto</h3>
+        <ul>
+          <li>📞 900 123 456</li>
+          <li>✉️ hola@partnerenergetico.com</li>
+          <li>📍 Madrid, España</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Partner Energético. Todos los derechos reservados.</p>
+    </div>
   </div>
 </footer>
 
-<!-- CTA móvil -->
-<div class="sticky-cta">
-  <a href="#form" class="btn primary" style="flex:1">Revisión gratuita</a>
-  <button class="btn ghost" id="open-calendar-sticky">Reserva 10'</button>
-</div>
-
 <script>
-/* ===== Config ===== */
-const WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/JGkHaKDrqyLJGaAenUBK/webhook-trigger/KBjc4OY60qRNIeDa2Z1A";
-
-/* ===== Helpers ===== */
-const qs=(s,el=document)=>el.querySelector(s);
-const qsa=(s,el=document)=>[...el.querySelectorAll(s)];
-const getParams=()=>Object.fromEntries(new URLSearchParams(location.search));
-const fmtMB = b => (b/1024/1024).toFixed(2)+' MB';
-const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-/* ===== Barra progreso + indicador de menú animado + scroll-spy ===== */
-(function(){
-  const bar=qs('#progress');
-  const onscroll=()=>{ const h=document.documentElement, sc=h.scrollTop, max=h.scrollHeight-h.clientHeight; bar.style.width=(max?(sc/max*100):0)+'%'; };
-  document.addEventListener('scroll', onscroll, {passive:true}); onscroll();
-
-  const sections=['valor','comparativa','metricas','form'].map(id=>qs('#'+id)).filter(Boolean);
-  const nav=qs('#mainnav'); const links=qsa('#mainnav a[href^="#"]');
-  const indicator=qs('.indicator', nav);
-
-  function moveIndicator(el){
-    const r = el.getBoundingClientRect(), nr = nav.getBoundingClientRect();
-    const w = r.width; const x = r.left - nr.left;
-    indicator.style.width = w + 'px';
-    indicator.style.transform = `translateX(${x}px)`;
+// Crear partículas
+function createParticles() {
+  const particlesContainer = document.getElementById('particles');
+  const particleCount = 50;
+  
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 10 + 's';
+    particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+    particlesContainer.appendChild(particle);
   }
+}
 
-  const map=new Map(sections.map(s=>[s.id, [...links].find(a=>a.getAttribute('href')==='#'+s.id)]));
-  const io=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{ const l=map.get(e.target.id); if(!l) return;
-      if(e.isIntersecting){
-        links.forEach(a=>a.classList.remove('active'));
-        l.classList.add('active');
-        moveIndicator(l);
+// True Focus Animation
+function initTrueFocus() {
+  const words = document.querySelectorAll('.focus-word');
+  let currentIndex = 0;
+  
+  function updateFocus() {
+    words.forEach((word, index) => {
+      if (index === currentIndex) {
+        word.classList.add('active');
+      } else {
+        word.classList.remove('active');
       }
     });
-  },{rootMargin:'-40% 0px -55% 0px',threshold:0.01});
-  sections.forEach(s=>io.observe(s));
-
-  // En hover también mueve el indicador (sin romper el activo)
-  links.forEach(a=>{
-    a.addEventListener('mouseenter', ()=> moveIndicator(a));
-    a.addEventListener('mouseleave', ()=>{
-      const active = qs('#mainnav a.active') || links[0];
-      moveIndicator(active);
-    });
-  });
-
-  // Inicial
-  window.addEventListener('load', ()=>{
-    const active = qs('#mainnav a.active') || links[0];
-    if(active) moveIndicator(active);
-  });
-})();
-
-/* ===== Menú móvil ===== */
-(function(){
-  const btn=qs('#menu-toggle'), tray=qs('#nav-tray'), links=qsa('.nav-link');
-  const toggle=()=>{ const open=tray.classList.toggle('open'); btn.setAttribute('aria-expanded', String(open)); };
-  btn?.addEventListener('click', toggle);
-  links.forEach(a=>a.addEventListener('click', ()=> tray.classList.remove('open')));
-  addEventListener('resize', ()=>{ if(innerWidth>980) tray.classList.remove('open'); });
-})();
-
-/* ===== UTM manager (guarda + rellena ocultos + WhatsApp/Calendario) ===== */
-(function utmManager(){
-  const wanted=["utm_source","utm_medium","utm_campaign","utm_content","utm_term","gclid","fbclid"];
-  const urlP=getParams(); const KEY="tlf_attr";
-  let saved={}; try{ saved=JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){}
-  if(!saved.first_referrer) saved.first_referrer=document.referrer||"(direct)";
-  wanted.forEach(k=>{ if(urlP[k]) saved[k]=urlP[k]; });
-  saved.entry_channel="Landing"; saved.city="Castro Urdiales"; saved.referrer_url=document.referrer||saved.referrer_url||"";
-  localStorage.setItem(KEY, JSON.stringify(saved));
-
-  // Rellenar ocultos
-  wanted.concat(["entry_channel","city","referrer_url"]).forEach(k=>{
-    const el=document.querySelector(`[name="${k}"]`); if(el) el.value=saved[k]||"";
-  });
-
-  // Enlaces con UTM
-  function withUTM(href){
-    const u=new URL(href, location.href);
-    Object.entries(saved).forEach(([k,v])=>{ if(v) u.searchParams.set(k,v); });
-    new URLSearchParams(location.search).forEach((v,k)=>{ if(!u.searchParams.has(k)) u.searchParams.set(k,v); });
-    return u.toString();
+    
+    currentIndex = (currentIndex + 1) % words.length;
   }
-  const wa=qs('#wa-form'); if(wa) wa.href = withUTM(wa.href);
-  window._buildBookingURL = ()=> withUTM('https://api.leadconnectorhq.com/widget/booking/BNqiWlZPpe9yYWHxODLY');
-})();
+  
+  updateFocus();
+  setInterval(updateFocus, 2000);
+}
 
-/* ===== Calendario ===== */
-(function(){
-  function openCal(e){ if(e) e.preventDefault(); const url=(window._buildBookingURL&&window._buildBookingURL())||'https://api.leadconnectorhq.com/widget/booking/BNqiWlZPpe9yYWHxODLY';
-    const isMobile=/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if(isMobile) location.href=url; else { const w=window.open(url,'_blank','noopener'); if(!w) location.href=url; }
-  }
-  ['#open-calendar','#open-calendar-hero','#open-calendar-form','#open-calendar-sticky','#open-calendar-m']
-    .forEach(sel=>{ const el=qs(sel); if(el){ el.addEventListener('click', openCal); if(el.tagName==='A'){ el.href=(window._buildBookingURL&&window._buildBookingURL())||el.href; el.target='_blank'; el.rel='noopener'; } }});
-})();
-
-/* ===== CTA móvil tras salir del hero ===== */
-(function(){
-  const sticky=qs('.sticky-cta'), hero=qs('#hero');
-  const io=new IntersectionObserver(([e])=>{ if(e.isIntersecting) sticky.classList.remove('show'); else sticky.classList.add('show'); },{threshold:0.15});
-  io.observe(hero);
-})();
-
-/* ===== Scroll Reveal (toda la página) ===== */
-(function(){
-  if (!window.ScrollReveal || prefersReduced) return;
-  ScrollReveal().reveal("[data-sr]", {
-    distance:"24px",
-    duration:800,
-    easing:"cubic-bezier(0.22,1,0.36,1)",
-    interval:80,
-    origin:"bottom",
-    cleanup:true
-  });
-})();
-
-/* ===== Scroll Reveal Simple ===== */
-(function(){
-  const revealElements = document.querySelectorAll('.scroll-reveal');
+// Scroll Reveal Animation
+function initScrollReveal() {
+  const elements = document.querySelectorAll('.fade-in-up');
   
   const revealOnScroll = () => {
-    revealElements.forEach(element => {
+    elements.forEach(element => {
       const elementTop = element.getBoundingClientRect().top;
       const elementVisible = 150;
       
@@ -929,234 +1070,76 @@ const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").mat
   
   window.addEventListener('scroll', revealOnScroll);
   revealOnScroll(); // Ejecutar al cargar
-})();
+}
 
-/* ===== True Focus Animation ===== */
-(function(){
-  const words = document.querySelectorAll('.true-focus-word');
-  let currentIndex = 0;
+// Header scroll effect
+function initHeaderScroll() {
+  const header = document.getElementById('header');
   
-  function showFocus() {
-    words.forEach((word, index) => {
-      if (index === currentIndex) {
-        word.classList.add('focused');
-      } else {
-        word.classList.remove('focused');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+}
+
+// Form submission
+function initForm() {
+  const form = document.getElementById('lead-form');
+  
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = {
+      nombre: document.getElementById('nombre').value,
+      email: document.getElementById('email').value,
+      telefono: document.getElementById('telefono').value,
+      empresa: document.getElementById('empresa').value,
+      mensaje: document.getElementById('mensaje').value
+    };
+    
+    // Aquí iría la lógica de envío a tu webhook
+    console.log('Formulario enviado:', formData);
+    
+    // Mostrar mensaje de éxito
+    alert('¡Gracias! Tu análisis gratuito ha sido solicitado. Te contactaremos en menos de 24 horas.');
+    
+    // Resetear formulario
+    form.reset();
+  });
+}
+
+// Smooth scroll para enlaces de navegación
+function initSmoothScroll() {
+  const links = document.querySelectorAll('a[href^="#"]');
+  
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href');
+      const targetSection = document.querySelector(targetId);
+      
+      if (targetSection) {
+        targetSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
       }
     });
-    
-    currentIndex = (currentIndex + 1) % words.length;
-  }
-  
-  // Iniciar la animación
-  showFocus();
-  setInterval(showFocus, 2000);
-})();
-
-/* ===== GSAP: Título por letras ===== */
-(function(){
-  function splitToChars(el){
-    const t=el.textContent.trim(); el.textContent="";
-    const f=document.createDocumentFragment();
-    for(const c of t){ const s=document.createElement("span"); s.className="char"; s.textContent=(c===" ")?"\u00A0":c; f.appendChild(s); }
-    el.appendChild(f); return [...el.querySelectorAll(".char")];
-  }
-  const el=qs('#title'); if(!el || prefersReduced || !window.gsap) return;
-  gsap.registerPlugin(ScrollTrigger);
-  const chars=splitToChars(el);
-  chars.forEach(c=>{ c.style.opacity=0; c.style.transform="translateY(32px)"; });
-  gsap.to(chars,{ opacity:1, y:0, duration:.55, ease:"power3.out", stagger:.02, scrollTrigger:{trigger:el, start:"top 80%", once:true} });
-})();
-
-/* ===== Decrypted Text ===== */
-(function(){
-  const el=qs('#decrypted'); if(!el) return;
-  const finalMsg = "Te ayudamos a entender la factura de la luz, y lo más importante, que AHORRES";
-  if (prefersReduced){ el.textContent = finalMsg; return; }
-  const chars="-_~`!@#$%^&*()+=[]{}|;:,.<>/?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let frame=0; const out=finalMsg.split("").map(()=>({ch:"",lock:false}));
-  const timer=setInterval(()=>{
-    let done=0;
-    for(let i=0;i<out.length;i++){
-      if(finalMsg[i]===" "){ out[i]={ch:" ",lock:true}; done++; continue; }
-      if(!out[i].lock){
-        if(frame> i + Math.random()*14) out[i]={ch:finalMsg[i],lock:true};
-        else out[i]={ch: chars[(Math.random()*chars.length)|0], lock:false};
-      } else done++;
-    }
-    el.textContent=out.map(o=>o.ch).join("");
-    if(done===out.length) clearInterval(timer);
-    frame++;
-  },22);
-})();
-
-/* ===== Círculos métricas (texto circular + rotación suave rAF) ===== */
-(function(){
-  function buildRing(el,text,radius){
-    el.innerHTML=""; const chars=[...text]; const total=chars.length;
-    for(let i=0;i<total;i++){ const s=document.createElement("span"); const a=(360/total)*i;
-      s.style.transform=`translate(-50%,-50%) rotate(${a}deg) translate(${radius}px) rotate(${-a}deg)`; s.textContent=chars[i]; el.appendChild(s); }
-  }
-  function spinRing(el, baseRps=0.6, hoverMode="speedUp"){
-    if(prefersReduced) return;
-    let factor=1, target=1, last=performance.now();
-    function tick(now){
-      const dt=(now-last)/1000; last=now; factor+=(target-factor)*0.1;
-      const prev=parseFloat(el._angle||0); const next=prev+(baseRps*factor*360*dt); el._angle=next%360;
-      el.style.transform=`rotate(${el._angle}deg)`; requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-    const modes={speedUp:3.2, slowDown:0.45, goBonkers:10, steady:1};
-    el.addEventListener("mouseenter", ()=> target = modes[hoverMode] ?? 1, {passive:true});
-    el.addEventListener("mouseleave", ()=> target = 1, {passive:true});
-  }
-  qsa('[data-ring]').forEach(el=>{
-    buildRing(el, el.dataset.text || "CIRCULAR • TEXT • ", parseFloat(el.dataset.radius || "98"));
-    spinRing(el, parseFloat(el.dataset.speed || "0.6"), el.dataset.hover || "speedUp");
   });
-})();
+}
 
-/* ===== Form premium: multistep, validación, drag&drop, envío a webhook ===== */
-(function(){
-  const form = qs('#tlf-form');
-  const steps = qsa('.step', form);
-  const bar = qs('#f-bar');
-  const status = qs('#status');
-  const ts = qs('#ts'); ts.value = String(Date.now());
-
-  const go = n => {
-    steps.forEach((s,i)=> s.hidden = i !== (n-1));
-    bar.style.width = ((n-1)/(steps.length-1))*100 + '%';
-    form.dataset.step = String(n);
-  };
-  go(1);
-
-  // Navegación
-  qs('#to-step-2').addEventListener('click', ()=>{
-    if (!validateStep1()) return;
-    go(2);
-  });
-  qs('#back-1').addEventListener('click', ()=> go(1));
-  qs('#to-step-3').addEventListener('click', ()=> go(3));
-  qs('#back-2').addEventListener('click', ()=> go(2));
-
-  // Validación básica + formato teléfono
-  const cc = qs('#cc'), phone = qs('#phone'), email = qs('#email'), name = qs('#name');
-  function formatPhone(){
-    let val = phone.value.replace(/[^\d]/g,'');
-    phone.value = val.replace(/(\d{3})(?=\d)/g,'$1 ').trim();
-  }
-  phone.addEventListener('input', formatPhone);
-
-  function validateStep1(){
-    let ok = true;
-    if(!name.value.trim()){ ok=false; mark(name,'Indica tu nombre'); } else clear(name);
-    const hasPhone = phone.value.replace(/\D/g,'').length >= 9;
-    const hasEmail = email.value ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value) : false;
-    if(!hasPhone && !hasEmail){ ok=false; mark(phone,'Teléfono (9 dígitos) o email válido'); mark(email,''); }
-    else { if(hasPhone) clear(phone); if(hasEmail||!email.value) clear(email); }
-    return ok;
-  }
-  function mark(el,msg){ el.classList.add('error'); el.style.borderColor='rgba(255,107,107,.65)'; if(msg) status.textContent=msg; }
-  function clear(el){ el.classList.remove('error'); el.style.borderColor='rgba(255,255,255,.14)'; status.textContent=''; }
-
-  // Drag & drop archivo
-  const drop = qs('#drop'), fileInput = qs('#file'), preview = qs('#preview'), fname = qs('#fname'), fsize=qs('#fsize');
-  const MAX = 8 * 1024 * 1024; // 8 MB
-  function handleFiles(files){
-    const f = files[0]; if(!f) return;
-    if(!/pdf|image\//i.test(f.type)){ status.textContent='Formato no admitido. Sube PDF o imagen.'; return; }
-    if(f.size > MAX){ status.textContent='Archivo demasiado grande (máx. 8 MB).'; return; }
-    fileInput.files = files;
-    fname.textContent = f.name; fsize.textContent = fmtMB(f.size);
-    preview.style.display='block';
-  }
-  drop.addEventListener('click', ()=> fileInput.click());
-  drop.addEventListener('dragover', e=>{ e.preventDefault(); drop.classList.add('drag'); });
-  drop.addEventListener('dragleave', ()=> drop.classList.remove('drag'));
-  drop.addEventListener('drop', e=>{ e.preventDefault(); drop.classList.remove('drag'); handleFiles(e.dataTransfer.files); });
-  fileInput.addEventListener('change', e=> handleFiles(e.target.files));
-
-  // Guardado de borrador
-  const draftKey='tlf_draft';
-  function saveDraft(){
-    const d={name:name.value,email:email.value,phone:phone.value,cc:cc.value,
-      kwh:qs('#kwh').value,price:qs('#price').value,power:qs('#power').value,type:qs('#type').value};
-    localStorage.setItem(draftKey, JSON.stringify(d));
-  }
-  qsa('input,select,textarea', form).forEach(el=> el.addEventListener('input', saveDraft));
-  try{ const d=JSON.parse(localStorage.getItem(draftKey)||'{}');
-    if(d.name) name.value=d.name; if(d.email) email.value=d.email; if(d.phone) phone.value=d.phone; if(d.cc) cc.value=d.cc;
-    ['kwh','price','power','type'].forEach(id=>{ if(d[id]) qs('#'+id).value=d[id]; });
-  }catch(e){}
-
-  // Envío a Webhook
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    if(!qs('#consent').checked){ status.textContent='Debes aceptar el consentimiento.'; return; }
-    if(qs('#hp').value){ status.textContent='Bloqueado por antispam.'; return; } // honeypot
-    const submitBtn = qs('#submit-btn'); submitBtn.disabled = true; status.textContent='Enviando…';
-
-    const data = new FormData(form);
-    // Normalizamos teléfono
-    const raw = phone.value.replace(/\D/g,'');
-    data.set('phone', raw ? `${cc.value} ${raw}` : '');
-
-    // Adjuntamos archivo como base64 (si hay)
-    let filePayload = null;
-    const f = fileInput.files?.[0];
-    if(f){
-      const arr = await f.arrayBuffer();
-      const b64 = btoa(String.fromCharCode(...new Uint8Array(arr)));
-      filePayload = { attachment_name: f.name, attachment_mime: f.type, attachment_base64: b64 };
-    }
-
-    // UTMs desde localStorage
-    let utm={}; try{ utm = JSON.parse(localStorage.getItem('tlf_attr')||'{}'); }catch(_){}
-    const payload = {
-      source: "Landing TrasLaFactura",
-      submitted_at: new Date().toISOString(),
-      fields: Object.fromEntries(data.entries()),
-      ...utm,
-      ...(filePayload || {})
-    };
-
-    async function trySendCors(){
-      const r = await fetch(WEBHOOK_URL, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-      if(!r.ok) throw new Error('HTTP '+r.status);
-    }
-    async function sendNoCors(){
-      await fetch(WEBHOOK_URL, {method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    }
-
-    try{
-      await trySendCors();
-      status.textContent='¡Solicitud enviada! Te contactaremos en 24–48h. Puedes reservar 10' ahora si lo prefieres.';
-    }catch(err){
-      await sendNoCors();
-      status.textContent='¡Solicitud enviada (modo seguro)! Si no recibes confirmación por email, escríbenos por WhatsApp.';
-    }finally{
-      submitBtn.disabled=false;
-      const url=(window._buildBookingURL&&window._buildBookingURL())||'https://api.leadconnectorhq.com/widget/booking/BNqiWlZPpe9yYWHxODLY';
-      try{ const w=window.open(url,'blank','noopener'); if(!w) location.href=url; }catch(){}
-      localStorage.removeItem('tlf_draft');
-      form.reset(); // reset
-      qsa('.step', form).forEach((s,i)=> s.hidden = i!==0); qs('#f-bar').style.width='0%';
-      qs('[name="referrer_url"]').value = document.referrer || '';
-      qs('#ts').value = String(Date.now());
-    }
-  });
-
-  // Botones rápidos
-  qs('#quick-calendar').addEventListener('click', (e)=>{ e.preventDefault(); document.getElementById('open-calendar-form').click(); });
-})();
-
-/* ===== CTA móvil: mostrar al salir del hero ===== */
-(function(){
-  const sticky=qs('.sticky-cta'), hero=qs('#hero');
-  const io=new IntersectionObserver(([e])=>{ if(e.isIntersecting) sticky.classList.remove('show'); else sticky.classList.add('show'); },{threshold:0.15});
-  io.observe(hero);
-})();
+// Inicializar todo cuando el DOM esté cargado
+document.addEventListener('DOMContentLoaded', () => {
+  createParticles();
+  initTrueFocus();
+  initScrollReveal();
+  initHeaderScroll();
+  initForm();
+  initSmoothScroll();
+});
 </script>
 </body>
 </html>
