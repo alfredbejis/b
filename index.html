@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>TrasLaFactura — Revisión gratuita de tu factura de luz</title>
+<title>Partner Energético — Revisión gratuita de tu factura de luz</title>
 <meta name="description" content="Análisis profesional y sin coste de tu factura de luz. Detectamos sobrecostes y te proponemos un plan claro para pagar menos." />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 <!-- GSAP (solo para entrance timeline) -->
@@ -33,7 +33,7 @@
 
   /* center page */
   .wrap{min-height:100svh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:30px}
-  .page{width:min(var(--maxw),96vw);margin:0 auto;text-align:center;position:relative}
+  .page{width:min(var(--maxw),96vw);margin:0 auto;text-align:center;position:relative; /* visible by default */ }
 
   header{margin-bottom:18px}
   .logo{display:inline-flex;align-items:center;gap:12px}
@@ -60,7 +60,7 @@
   .tf-word{position:relative; display:inline-block; padding:6px 10px; border-radius:8px; font-weight:900; color:#fff; cursor:default; transition: filter .45s ease}
   .tf-word.inactive{opacity:.9}
   /* focus frame */
-  .tf-frame{position:absolute; left:0; top:0; transform-origin:0 0; pointer-events:none; border-radius:10px; box-shadow:0 8px 30px rgba(24,169,87,.12); border:2px solid rgba(255,255,255,.95); transition:all .45s cubic-bezier(.22,1,.36,1); z-index:0; overflow:visible; background:transparent}
+  .tf-frame{position:absolute; left:0; top:0; transform-origin:0 0; pointer-events:none; border-radius:10px; box-shadow:0 8px 30px rgba(24,169,87,.12); border:2px solid rgba(255,255,255,.95); transition:all .45s cubic-bezier(.22,1,.36,1); z-index:0; overflow:visible}
   /* corners */
   .tf-corner{position:absolute;width:10px;height:10px; border:2px solid var(--frame-border, #fff); background:transparent}
   .tf-corner.tl{left:-6px;top:-6px;border-right:none;border-bottom:none}
@@ -101,20 +101,16 @@
   .stars{color:#e6ffef;font-size:14px}
   .when{color:var(--muted);font-size:12px}
   .text{color:#dff7e6;font-size:14px;line-height:1.4}
-
-  /* entrance fade (fallback if GSAP missing) */
-  .fade-in{opacity:0;transform:translateY(8px)}
-  @media (prefers-reduced-motion: reduce){ .fade-in{opacity:1;transform:none} }
 </style>
 </head>
 <body>
   <div class="aura" aria-hidden="true"></div>
 
   <div class="wrap">
-    <main class="page fade-in" id="page">
+    <main class="page" id="page">
       <header><div class="logo"><img src="https://storage.googleapis.com/msgsndr/JGkHaKDrqyLJGaAenUBK/media/68f7c75b57ab4837ff3fa0f8.png" alt="TrasLaFactura"></div></header>
 
-      <h1 id="main-title">Revisión profesional para <span style="color:var(--accent)">pagar menos</span></h1>
+      <h1 id="main-title">Revisión profesional para <span style="color:var(--accent)">pagar menos</span> por tu luz</h1>
       <p class="lead">Analizamos tu contrato y consumos para detectar sobrecostes y proponerte un plan claro, sin letra pequeña.</p>
 
       <div class="ctas">
@@ -127,7 +123,7 @@
         <div class="left" aria-hidden="false">
           <div class="decrypted" id="decrypted">•••••••••••••••••••••••••••••••••••••••••••••</div>
 
-          <!-- TRUE FOCUS: we'll initialize it with JS -->
+          <!-- TRUE FOCUS container -->
           <div style="margin-top:10px">
             <div id="true-focus" class="tf-container" aria-hidden="false" 
                  data-sentence="Analizamos tu factura y ENCONTRAMOS SOBRECOSTES que puedes evitar"
@@ -137,13 +133,6 @@
                  data-glow="rgba(255,255,255,0.12)"
                  data-duration="0.45"
                  data-pause="1.2">
-              <!-- words injected by JS -->
-              <div id="tf-frame" class="tf-frame" aria-hidden="true">
-                <span class="tf-corner tl"></span>
-                <span class="tf-corner tr"></span>
-                <span class="tf-corner bl"></span>
-                <span class="tf-corner br"></span>
-              </div>
             </div>
           </div>
 
@@ -159,9 +148,7 @@
           <!-- testimonials -->
           <div class="testi-wrap" style="margin-top:14px;">
             <div class="testi-glow" aria-hidden="true"></div>
-            <div class="marquee" id="marquee">
-              <!-- content injected by JS -->
-            </div>
+            <div class="marquee" id="marquee"></div>
           </div>
         </div>
 
@@ -197,17 +184,15 @@
 /* ===== Respect reduced motion ===== */
 const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* ===== Entrance animation (GSAP) - page fade in and staggered children ===== */
+/* ===== Entrance animation (GSAP) - animate FROM visible props if GSAP exists ===== */
 window.addEventListener('load', ()=> {
   const page = document.getElementById('page');
   if (prefersReduced || typeof gsap === 'undefined') {
-    page.style.opacity = '1';
-    page.style.transform = 'none';
+    // nothing to do — page is visible by default
     return;
   }
-  gsap.timeline()
-    .from(page, {opacity:0, y:10, duration:0.6, ease:'power2.out'})
-    .from('#main-card > .left > *:not(.decrypted)', {opacity:0, y:12, stagger:0.08, duration:0.5}, "-=0.35");
+  // animate from invisible -> visible for a pleasant entrance
+  gsap.from(page, {opacity:0, y:8, duration:0.6, ease:'power2.out'});
 });
 
 /* ===== Decrypted text (vanilla) ===== */
@@ -233,10 +218,7 @@ window.addEventListener('load', ()=> {
   }, 22);
 })();
 
-/* ===== True Focus (vanilla implementation adapted from your React component) =====
-   Usage driven by data attributes on #true-focus:
-   data-sentence, data-manual, data-blur, data-border, data-glow, data-duration, data-pause
-*/
+/* ===== True Focus (vanilla adaptation) ===== */
 (function(){
   const container = document.getElementById('true-focus');
   if(!container) return;
@@ -248,102 +230,66 @@ window.addEventListener('load', ()=> {
   const animDuration = parseFloat(container.dataset.duration || '0.45') * 1000;
   const pauseBetween = parseFloat(container.dataset.pause || '1.2') * 1000;
 
-  // prepare words
   const words = sentence.split(' ').filter(Boolean);
-  container.innerHTML = ''; // clear
+  // build DOM
+  container.innerHTML = '';
   const frame = document.createElement('div'); frame.className = 'tf-frame'; frame.style.borderColor = borderColor; frame.style.boxShadow = `0 8px 30px ${glowColor}`; frame.style.transition = `all ${animDuration/1000}s cubic-bezier(.22,1,.36,1)`; container.appendChild(frame);
-  // corners
   ['tl','tr','bl','br'].forEach(c=>{
-    const span = document.createElement('span'); span.className = 'tf-corner '+c; span.style.borderColor = borderColor; frame.appendChild(span);
+    const s = document.createElement('span'); s.className = 'tf-corner '+c; s.style.borderColor = borderColor; frame.appendChild(s);
   });
 
   const wordNodes = [];
-  words.forEach((w, i) => {
-    const span = document.createElement('span');
-    span.className = 'tf-word';
-    span.textContent = w;
-    // default blur for non-active
-    span.style.filter = `blur(${blurAmount}px)`;
-    span.style.transition = `filter ${animDuration/1000}s ease, opacity ${animDuration/1000}s ease`;
-    // wrap spacing
-    container.appendChild(span);
-    wordNodes.push(span);
-    // mouse interactions
-    span.addEventListener('mouseenter', ()=> {
-      if (manualMode) setActive(i, true);
-    });
-    span.addEventListener('mouseleave', ()=> {
-      if (manualMode) setActive(currentIndexBeforeHover ?? 0, true);
-    });
+  words.forEach((w,i)=>{
+    const s = document.createElement('span'); s.className='tf-word'; s.textContent = w;
+    s.style.filter = `blur(${blurAmount}px)`;
+    s.style.transition = `filter ${animDuration/1000}s ease, opacity ${animDuration/1000}s ease`;
+    container.appendChild(s);
+    wordNodes.push(s);
+    if (manualMode) {
+      s.addEventListener('mouseenter', ()=> setActive(i, true));
+      s.addEventListener('mouseleave', ()=> setActive(0, true));
+    }
   });
 
-  // positioning / sizing
-  const getParentRect = () => container.getBoundingClientRect();
-
+  function getParentRect(){ return container.getBoundingClientRect(); }
   let current = 0;
-  let currentIndexBeforeHover = 0;
-  let intervalId = null;
-
   function setActive(index, instant){
     if (index < 0 || index >= wordNodes.length) return;
     current = index;
-    // blur others & unblur active
-    wordNodes.forEach((n, i)=> {
-      if (i === index) {
-        n.style.filter = 'blur(0px)';
-      } else {
-        n.style.filter = `blur(${blurAmount}px)`;
-      }
-    });
-
-    // compute position relative to container
+    wordNodes.forEach((n,i)=> n.style.filter = (i===index) ? 'blur(0px)' : `blur(${blurAmount}px)`);
+    // compute rects
     const parentRect = getParentRect();
     const activeRect = wordNodes[index].getBoundingClientRect();
-    const x = activeRect.left - parentRect.left - 6; // small offset so frame slightly larger
-    const y = activeRect.top - parentRect.top - 6;
+    const x = Math.max(0, activeRect.left - parentRect.left - 6);
+    const y = Math.max(0, activeRect.top - parentRect.top - 6);
     const w = Math.max(24, activeRect.width + 12);
     const h = Math.max(18, activeRect.height + 8);
-
-    // apply to frame
     if (instant) {
       frame.style.transition = 'none';
-      frame.style.left = x + 'px';
-      frame.style.top = y + 'px';
-      frame.style.width = w + 'px';
-      frame.style.height = h + 'px';
-      // force reflow then restore transition for future
+      frame.style.left = x + 'px'; frame.style.top = y + 'px'; frame.style.width = w + 'px'; frame.style.height = h + 'px';
       void frame.offsetWidth;
       frame.style.transition = `all ${animDuration/1000}s cubic-bezier(.22,1,.36,1)`;
     } else {
-      frame.style.left = x + 'px';
-      frame.style.top = y + 'px';
-      frame.style.width = w + 'px';
-      frame.style.height = h + 'px';
+      frame.style.left = x + 'px'; frame.style.top = y + 'px'; frame.style.width = w + 'px'; frame.style.height = h + 'px';
     }
   }
 
-  // initial layout - place words inline with spacing preserved
-  // ensure container size fits
+  // ensure inline layout
   setTimeout(()=> {
-    // small delay to ensure layout done
-    wordNodes.forEach(n => n.style.display = 'inline-block');
+    wordNodes.forEach(n=> n.style.display='inline-block');
     setActive(0, true);
   }, 20);
 
-  // automated cycling if not manual
   if (!manualMode && !prefersReduced) {
-    intervalId = setInterval(()=> {
+    setInterval(()=> {
       const next = (current + 1) % wordNodes.length;
       setActive(next, false);
     }, animDuration + pauseBetween);
   }
-
-  // responsive: recompute on resize
   window.addEventListener('resize', ()=> setActive(current, true));
-
 })();
 
-/* ===== Rings rotation (rAF) for metrics - smooth, no cut on hover ===== */
+/* ===== Rings rotation (rAF) for metrics ===== */
 (function(){
   function buildRingText(el, text) {
     el.innerHTML = '';
@@ -352,7 +298,7 @@ window.addEventListener('load', ()=> {
     chars.forEach((ch, i) => {
       const s = document.createElement('span');
       const angle = (360 / total) * i;
-      s.style.transform = `translate(-50%,-50%) rotate(${angle}deg) translate(68px) rotate(${-angle}deg)`;
+      s.style.transform = `translate(-50%,-50%) rotate(${angle}deg) translate(48px) rotate(${-angle}deg)`;
       s.textContent = ch;
       el.appendChild(s);
     });
@@ -380,7 +326,7 @@ window.addEventListener('load', ()=> {
   });
 })();
 
-/* ===== Testimonials marquee (continuous, 4 reviews incl. yours) ===== */
+/* ===== Testimonials marquee ===== */
 (function(){
   const REVIEWS = [
     {
@@ -395,7 +341,6 @@ window.addEventListener('load', ()=> {
       when: "2024",
       text: "Desde el primer día ha tenido un trato cercano y me ha transmitido confianza a la hora de realizar los cambios recomendados. Lo recomiendo al 100% por sus ganas y su profesionalidad."
     },
-    // two invented
     {
       name: "Marta Rodríguez",
       rating: 5,
@@ -413,7 +358,6 @@ window.addEventListener('load', ()=> {
   const marquee = document.getElementById('marquee');
   if (!marquee) return;
 
-  // build lane and clone for seamless loop
   const lane = document.createElement('div'); lane.style.display='flex'; lane.style.gap='16px';
   const lane2 = document.createElement('div'); lane2.style.display='flex'; lane2.style.gap='16px';
 
@@ -428,16 +372,10 @@ window.addEventListener('load', ()=> {
   marquee.appendChild(lane);
   marquee.appendChild(lane2);
 
-  // continuous animation
   if (prefersReduced) return;
-  let pos = 0;
-  let speed = 42; // px/sec
-  let targetSpeed = 42;
-  let last = performance.now();
+  let pos = 0; let speed = 42; let targetSpeed = 42; let last = performance.now();
 
-  function totalWidth(el){
-    return Array.from(el.children).reduce((a,c)=> a + c.getBoundingClientRect().width + 16, 0);
-  }
+  function totalWidth(el){ return Array.from(el.children).reduce((a,c)=> a + c.getBoundingClientRect().width + 16, 0); }
   let w = totalWidth(lane);
 
   function tick(now){
@@ -449,10 +387,7 @@ window.addEventListener('load', ()=> {
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
-
-  // resize observer to recalc
   new ResizeObserver(()=> { w = totalWidth(lane); }).observe(lane);
-
   marquee.addEventListener('mouseenter', ()=> targetSpeed = 68);
   marquee.addEventListener('mouseleave', ()=> targetSpeed = 42);
 })();
@@ -470,19 +405,6 @@ window.addEventListener('load', ()=> {
   document.getElementById('cta-book')?.addEventListener('click', ()=> alert('Abrir calendario (tu widget)'));
   document.getElementById('book-right')?.addEventListener('click', ()=> alert('Abrir calendario (tu widget)'));
 })();
-
-/* ===== Accessibility / fallback: ensure focus frame visible on load for reduced motion ===== */
-if (prefersReduced) {
-  // unblur all tf-words and show frame around full container
-  setTimeout(()=> {
-    document.querySelectorAll('.tf-word').forEach(n=> n.style.filter = 'none');
-    const frame = document.querySelector('.tf-frame');
-    if (frame && frame.parentElement) {
-      frame.style.left = '0px'; frame.style.top = '0px'; frame.style.width = frame.parentElement.getBoundingClientRect().width + 'px';
-      frame.style.height = frame.parentElement.getBoundingClientRect().height + 'px';
-    }
-  }, 50);
-}
 </script>
 </body>
 </html>
